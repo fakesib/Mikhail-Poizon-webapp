@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/auth")
 public class AuthController {
 
     @Autowired
@@ -19,12 +18,5 @@ public class AuthController {
                                       @RequestParam("password") String password) {
         authService.register(username, password);
         return ResponseEntity.ok("Registered successfully");
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestParam("username") String username,
-                                   @RequestParam("password") String password) {
-        String token = authService.login(username, password);
-        return ResponseEntity.ok(Map.of("token", token));
     }
 }

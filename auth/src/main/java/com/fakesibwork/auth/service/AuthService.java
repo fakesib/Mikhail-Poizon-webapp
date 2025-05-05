@@ -15,10 +15,6 @@ public class AuthService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private JwtTokenProvider jwtTokenProvider;
-
-
     public void register(String username, String password) {
         if (userRepo.findByUsername(username).isPresent()) {
             throw new RuntimeException("Username already exists");
@@ -31,16 +27,4 @@ public class AuthService {
 
         userRepo.save(user);
     }
-
-    public String login(String username, String password) {
-        User user = userRepo.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new RuntimeException("Invalid password");
-        }
-
-        return jwtTokenProvider.generateToken(String.valueOf(user.getId()), user.getRole());
-    }
-
 }
