@@ -1,5 +1,9 @@
 package com.fakesibwork.auth.config;
 
+import com.fakesibwork.auth.service.AuthService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,24 +20,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-@RequestMapping("/auth")
 public class SecurityConfig {
+
+    @Autowired
+    private AuthenticationProviderConfig authenticationProviderConfig;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/register").permitAll()
+                        .requestMatchers("/auth/**", "/main/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .loginProcessingUrl("/login")
+                        .loginProcessingUrl("/auth/login")
                         .defaultSuccessUrl("/profile", true)
                         .permitAll()
                 )
                 .logout(logout -> logout
-                        .logoutUrl("/logout")
+                        .logoutUrl("/auth/logout")
                         .logoutSuccessUrl("/login?logout")
                         .permitAll()
                 )
@@ -45,7 +51,9 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+        AuthenticationManagerBuilder builder = http.getSharedObject(AuthenticationManagerBuilder.class);
+        builder.authenticationProvider(authenticationProviderConfig);
+        return builder.build();
     }
 }
