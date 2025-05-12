@@ -1,0 +1,4 @@
+rootProject.name = 'Mikhail-Poizon-webapp'
+include 'profile'
+include 'gateway'
+include 'auth'
