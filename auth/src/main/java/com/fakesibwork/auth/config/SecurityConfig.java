@@ -1,5 +1,10 @@
 package com.fakesibwork.auth.config;
 
+import com.fakesibwork.auth.service.UserUserDetailService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,36 +21,37 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-@RequestMapping("/auth")
 public class SecurityConfig {
+
+    @Autowired
+    private AuthenticationProviderConfig authenticationProviderConfig;
+
+    @Autowired
+    private UserUserDetailService userDetailService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(AbstractHttpConfigurer::disable)
+        http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/register").permitAll()
+                        .requestMatchers("/auth/register", "/auth/login").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .loginProcessingUrl("/login")
+                        .loginPage("/auth/login")
+                        .loginProcessingUrl("/auth/login")
                         .defaultSuccessUrl("/profile", true)
-                        .permitAll()
                 )
                 .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout")
-                        .permitAll()
-                )
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                        .logoutUrl("/auth/logout")
+                        .logoutSuccessUrl("/auth/logout?logout").permitAll()
                 );
-
         return http.build();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+        AuthenticationManagerBuilder builder = http.getSharedObject(AuthenticationManagerBuilder.class);
+        builder.authenticationProvider(authenticationProviderConfig);
+        return builder.build();
     }
 }
