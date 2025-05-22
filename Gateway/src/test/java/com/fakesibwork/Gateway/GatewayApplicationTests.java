@@ -1,4 +1,4 @@
-package com.fakesibwork.Gateway;
+package com.fakesibwork.gateway;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

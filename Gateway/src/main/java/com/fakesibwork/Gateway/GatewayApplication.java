@@ -1,4 +1,4 @@
-package com.fakesibwork.Gateway;
+package com.fakesibwork.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
