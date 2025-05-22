@@ -5,6 +5,10 @@ server:
     session:
       cookie:
         name: SESSION
+        domain: localhost
+        path: /
+        http-only: true
+        secure: false
 
 spring:
   application:
@@ -29,7 +33,5 @@ spring:
     store-type: redis
 
   redis:
-    flush-mode: on-save
-    namespace: spring:session
     host: localhost
     port: 6379
