@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: database-service
+
+  datasource:
+    url: jdbc:postgresql://localhost/mikhailpoizon_test
+    username: postgres
+    password: postgres
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+    properties:
+      hibernate:
+        format_sql: true
