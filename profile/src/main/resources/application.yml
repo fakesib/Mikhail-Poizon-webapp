@@ -15,7 +15,7 @@ spring:
     name: profile-service
 
   datasource:
-    url: jdbc:postgresql://localhost/mikhailpoizon
+    url: jdbc:postgresql://localhost/mikhailpoizon_test
     username: postgres
     password: postgres
 

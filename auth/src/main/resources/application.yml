@@ -15,14 +15,14 @@ spring:
     name: auth-service
 
   datasource:
-    url: jdbc:postgresql://localhost/mikhailpoizon
+    url: jdbc:postgresql://localhost/mikhailpoizon_test
     username: postgres
     password: postgres
 
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
       naming:
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
     properties:
