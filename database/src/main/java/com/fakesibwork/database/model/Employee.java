@@ -16,5 +16,10 @@ public class Employee {
     private Integer id;
 
     @OneToOne(fetch = FetchType.EAGER)
+    @Column(name = "user_id")
     private User user;
+
+    @Enumerated(EnumType.STRING)
+    private Grade grade;
+
 }
