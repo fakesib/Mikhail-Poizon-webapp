@@ -1,7 +1,6 @@
 package com.fakesibwork.auth.config;
 
-import com.fakesibwork.auth.model.User;
-import com.fakesibwork.auth.repo.UserRepo;
+import com.fakesibwork.auth.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -12,14 +11,17 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
 @Component
 public class AuthenticationProviderConfig implements AuthenticationProvider {
 
+    private static final String USER_SERVICE_URL = "http://localhost:8083/api/user/";
+
     @Autowired
-    private UserRepo userRepo;
+    private RestTemplate restTemplate;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -29,14 +31,17 @@ public class AuthenticationProviderConfig implements AuthenticationProvider {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
 
-        User user = userRepo.findByUsername(username)
-                .orElseThrow(() -> new BadCredentialsException("Неверное имя пользователя или пароль"));
+        var user = restTemplate.getForEntity(USER_SERVICE_URL + username, UserDTO.class).getBody();
 
-        if (!passwordEncoder.matches(password, user.getPassword())) {
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+
+        if (!passwordEncoder.matches(password, user.password)) {
             throw new BadCredentialsException("Неверное имя пользователя или пароль");
         }
 
-        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
+        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + user.role));
 
         return new UsernamePasswordAuthenticationToken(username, password, authorities);
     }
