@@ -15,8 +15,8 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @Column(name = "user_id")
+    @OneToOne
+    @JoinColumn(name = "users_id")
     private User user;
 
     @Enumerated(EnumType.STRING)

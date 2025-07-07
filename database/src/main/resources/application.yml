@@ -1,3 +1,6 @@
+server:
+  port: 8083
+
 spring:
   application:
     name: database-service
@@ -10,7 +13,7 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
       naming:
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
     properties:
