@@ -1,7 +1,6 @@
 package com.fakesibwork.profile.service;
 
 import com.fakesibwork.profile.model.User;
-import com.fakesibwork.profile.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
