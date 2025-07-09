@@ -1,10 +1,10 @@
-package com.fakesibwork.gateway;
+package com.fakesibwork.database;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class GatewayApplicationTests {
+class DatabaseApplicationTests {
 
 	@Test
 	void contextLoads() {

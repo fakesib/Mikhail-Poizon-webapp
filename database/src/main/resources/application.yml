@@ -1,18 +1,9 @@
 server:
-  port: 8082
-  forward-headers-strategy: framework
-  servlet:
-    session:
-      cookie:
-        name: SESSION
-        domain: localhost
-        path: /
-        http-only: true
-        secure: false
+  port: 8083
 
 spring:
   application:
-    name: profile-service
+    name: database-service
 
   datasource:
     url: jdbc:postgresql://localhost/mikhailpoizon_test
@@ -28,10 +19,3 @@ spring:
     properties:
       hibernate:
         format_sql: true
-
-  session:
-    store-type: redis
-
-  redis:
-    host: localhost
-    port: 6379

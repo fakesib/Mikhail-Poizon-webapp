@@ -1,6 +1,6 @@
-package com.fakesibwork.auth.repo;
+package com.fakesibwork.database.repository;
 
-import com.fakesibwork.auth.model.User;
+import com.fakesibwork.database.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

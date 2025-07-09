@@ -1,13 +1,12 @@
-package com.fakesibwork.Gateway;
+package com.fakesibwork.database;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class GatewayApplication {
+public class DatabaseApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(GatewayApplication.class, args);
+		SpringApplication.run(DatabaseApplication.class, args);
 	}
-
 }

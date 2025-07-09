@@ -1,30 +1,27 @@
 package com.fakesibwork.auth.service;
 
-import com.fakesibwork.auth.model.User;
-import com.fakesibwork.auth.repo.UserRepo;
+import com.fakesibwork.auth.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 public class AuthService {
 
+    private static final String USER_SERVICE_URL = "http://localhost:8083/api/user/add";
+
     @Autowired
-    private UserRepo userRepo;
+    private RestTemplate restTemplate;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     public void register(String username, String password) {
-        if (userRepo.findByUsername(username).isPresent()) {
-            throw new RuntimeException("Username already exists");
-        }
-
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
-        user.setRole("USER");
-
-        userRepo.save(user);
+        restTemplate.postForEntity(USER_SERVICE_URL, UserDTO.builder()
+                        .username(username)
+                        .password(passwordEncoder.encode(password))
+                        .role("USER")
+                .build(), UserDTO.class);
     }
 }

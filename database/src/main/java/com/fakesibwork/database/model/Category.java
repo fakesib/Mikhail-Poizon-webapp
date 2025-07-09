@@ -1,4 +1,4 @@
-package com.fakesibwork.profile.model;
+package com.fakesibwork.database.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,18 +6,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "users")
-public class User {
+public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private String username;
-    private String password;
-    private String role;
+    private Integer id;
+
+    @Column(unique = true, nullable = false)
+    private String name;
 
 }
-
