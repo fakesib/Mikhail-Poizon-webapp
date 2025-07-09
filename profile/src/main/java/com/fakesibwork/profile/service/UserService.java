@@ -1,16 +1,19 @@
 package com.fakesibwork.profile.service;
 
-import com.fakesibwork.profile.model.User;
+import com.fakesibwork.profile.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepo userRepo;
+    private static final String USER_SERVICE_URL = "http://localhost:8083/api/user/";
 
-    public User getUser(String name) {
-        return userRepo.findByUsername(name);
+    @Autowired
+    private RestTemplate restTemplate;
+
+    public UserDTO getUser(String username) {
+        return restTemplate.getForEntity(USER_SERVICE_URL + username, UserDTO.class).getBody();
     }
 }
