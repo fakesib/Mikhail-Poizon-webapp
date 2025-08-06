@@ -1,0 +1,71 @@
+services:
+  auth-service:
+    image: ghcr.io/fakesib/auth-service
+    container_name: auth-service
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    depends_on:
+      - gateway-service
+      - redis
+    ports:
+      - "8081:8081"
+
+  database-service:
+    image: ghcr.io/fakesib/database-service
+    container_name: database-service
+    environment:
+      DB_HOST: postgres-service
+      DB_PORT: 5432
+      DB_NAME: mikhailpoizon_docker
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+    depends_on:
+      postgres-service: 
+        condition: service_healthy
+    ports:
+      - "8083"
+
+  gateway-service:
+    image: ghcr.io/fakesib/gateway-service
+    container_name: gateway-service
+    ports:
+      - "8080:8080"
+
+  profile-service:
+    image: ghcr.io/fakesib/profile-service
+    container_name: profile-service
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    depends_on:
+      - gateway-service
+      - redis
+    ports:
+      - "8082:8082"
+  
+  postgres-service:
+    image: postgres:16.0
+    container_name: postgres-service
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: mikhailpoizon_docker
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d mikhailpoizon_docker"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      ["db-data:/var/lib/postgresql/data"]
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:8.2.0
+    container_name: redis
+    ports:
+      - "6379:6379"
+
+volumes:
+  db-data:
