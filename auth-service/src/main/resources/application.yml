@@ -5,7 +5,6 @@ server:
     session:
       cookie:
         name: SESSION
-        domain: localhost
         path: /
         http-only: true
         secure: false
@@ -14,21 +13,6 @@ spring:
   application:
     name: auth-service
 
-  datasource:
-    url: jdbc:postgresql://localhost/mikhailpoizon_test
-    username: postgres
-    password: postgres
-
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: validate
-      naming:
-        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
-    properties:
-      hibernate:
-        format_sql: true
-
   session:
     store-type: redis
     redis:
@@ -36,5 +20,9 @@ spring:
       flush-mode: on-save
 
   redis:
-    host: localhost
+    host: redis
     port: 6379
+
+logging:
+  level:
+    org.springframework.data.redis: DEBUG

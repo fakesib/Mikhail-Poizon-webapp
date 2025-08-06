@@ -14,7 +14,7 @@ import static org.springframework.security.core.userdetails.User.builder;
 @Component
 public class UserUserDetailService implements UserDetailsService {
 
-    private static final String USER_SERVICE_URL = "http://localhost:8083/api/user/";
+    private static final String USER_SERVICE_URL = "http://database-service:8083/api/user/";
 
     @Autowired
     private RestTemplate restTemplate;

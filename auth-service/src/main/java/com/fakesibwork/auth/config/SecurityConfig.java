@@ -2,6 +2,9 @@ package com.fakesibwork.auth.config;
 
 import com.fakesibwork.auth.service.UserUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -19,6 +22,12 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
+
+    @Value(value = "${spring.redis.host}")
+    String redisHost;
+
+    @Value(value = "${spring.redis.port}")
+    Integer redisPort;
 
     @Autowired
     private AuthenticationProviderConfig authenticationProviderConfig;
@@ -52,6 +61,14 @@ public class SecurityConfig {
     @Bean
     public SecurityContextRepository securityContextRepository() {
         return new HttpSessionSecurityContextRepository();
+    }
+
+    @Bean
+    public LettuceConnectionFactory redisConnectionFactory() {
+        RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
+        config.setHostName(redisHost);
+        config.setPort(redisPort);
+        return new LettuceConnectionFactory(config);
     }
 
     @Bean

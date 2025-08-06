@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class AuthService {
 
-    private static final String USER_SERVICE_URL = "http://localhost:8083/api/user/add";
+    private static final String USER_SERVICE_URL = "http://database-service:8083/api/user/add";
 
     @Autowired
     private RestTemplate restTemplate;
