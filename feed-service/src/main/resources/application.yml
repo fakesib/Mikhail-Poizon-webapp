@@ -1,0 +1,23 @@
+server:
+  port: 8084
+  forward-headers-strategy: framework
+  servlet:
+    session:
+      cookie:
+        name: SESSION
+        path: /
+        http-only: true
+        secure: false
+
+spring:
+  application:
+    name: feed-service
+  session:
+    store-type: redis
+  redis:
+    host: redis
+    port: 6379
+
+logging:
+  level:
+    org.springframework.data.redis: DEBUG

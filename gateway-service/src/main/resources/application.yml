@@ -20,3 +20,7 @@ spring:
           uri: http://database-service:8083
           predicates:
             - Path=/api/**
+        - id: feed-service
+          uri: http://feed-service:8084
+          predicates:
+            - Path=/feed/**
