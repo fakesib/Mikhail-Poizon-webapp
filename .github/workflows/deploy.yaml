@@ -30,27 +30,27 @@ jobs:
 
       - name: Build auth-service image
         run: | 
-          docker build auth-service/Dockerfile -t ${{ env.REGISTRY }}/${{ secrets.GH_USERNAME }} auth-service/
+          docker build -f auth-service/Dockerfile -t ${{ env.REGISTRY }}/${{ secrets.GH_USERNAME }}/auth-service auth-service/
           docker push ${{ env.REGISTRY }}/${{ secrets.GH_USERNAME }}/auth-service
 
       - name: Build database-service image
         run: | 
-          docker build database-service/Dockerfile -t ${{ env.REGISTRY }}/${{ secrets.GH_USERNAME }} database-service/
+          docker build -f database-service/Dockerfile -t ${{ env.REGISTRY }}/${{ secrets.GH_USERNAME }}/database-service database-service/
           docker push ${{ env.REGISTRY }}/${{ secrets.GH_USERNAME }}/database-service
 
       - name: Build feed-service image
         run: | 
-          docker build feed-service/Dockerfile -t ${{ env.REGISTRY }}/${{ secrets.GH_USERNAME }} feed-service/
+          docker build -f feed-service/Dockerfile -t ${{ env.REGISTRY }}/${{ secrets.GH_USERNAME }}/feed-service feed-service/
           docker push ${{ env.REGISTRY }}/${{ secrets.GH_USERNAME }}/feed-service
 
       - name: Build gateway-service image
         run: | 
-          docker build gateway-service/Dockerfile -t ${{ env.REGISTRY }}/${{ secrets.GH_USERNAME }} gateway-service/
+          docker build -f gateway-service/Dockerfile -t ${{ env.REGISTRY }}/${{ secrets.GH_USERNAME }}/gateway-service gateway-service/
           docker push ${{ env.REGISTRY }}/${{ secrets.GH_USERNAME }}/gateway-service
 
       - name: Build profile-service image
         run: |
-          docker build profile-service/Dockerfile -t ${{ env.REGISTRY }}/${{ secrets.GH_USERNAME }} profile-service/
+          docker build -f profile-service/Dockerfile -t ${{ env.REGISTRY }}/${{ secrets.GH_USERNAME }}/profile-service profile-service/
           docker push ${{ env.REGISTRY }}/${{ secrets.GH_USERNAME }}/profile-service
   
   # 2 start application
