@@ -1,35 +1,103 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-
+<html lang="ru">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>Please sign in</title>
-    <link href="/default-ui.css" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Регистрация - MichailPoizon</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #84FFFE, #ffffff 30%, #84FFFE);
+      color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .form-wrapper {
+      max-width: 400px;
+      width: 100%;
+      padding: 2rem;
+      background-color: #fff;
+      border: 1px solid #000;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      position: relative;
+      z-index: 2;
+    }
+    .form-wrapper h1 {
+      font-size: 5rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      color: #000;
+      position: absolute;
+      top: -110px;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      z-index: 1;
+      width: 120%;
+    }
+    .form-wrapper input {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #000;
+      border-radius: 6px;
+      background-color: #fff;
+      color: #000;
+    }
+    .form-wrapper button {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #84FFFE;
+      color: #000;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .small-actions {
+      text-align: center;
+      font-size: 0.85rem;
+      margin-top: 1rem;
+    }
+    .small-actions a {
+      color: #000;
+      text-decoration: none;
+      margin: 0 0.5rem;
+    }
+     .background-pattern {
+      position: absolute;
+      width: 150%;
+      height: 150%;
+      background: radial-gradient(circle at 30% 30%, #84FFFE44 0%, transparent 40%),
+                  radial-gradient(circle at 70% 60%, #84FFFE33 0%, transparent 50%),
+                  radial-gradient(circle at 50% 90%, #84FFFE22 0%, transparent 60%);
+      z-index: 0;
+    }
+  </style>
 </head>
-
 <body>
-<div class="content">
-    <form class="login-form" method="post" th:action="@{/auth/register}">
-        <h2>Registration</h2>
-        <p>
-            <label for="username" class="screenreader">Username</label>
-            <input type="text" id="username" name="username" placeholder="Username" required autofocus>
-        </p>
-        <p>
-            <label for="password" class="screenreader">Password</label>
-            <input type="password" id="password" name="password" placeholder="Password" required>
-        </p>
-
-
-        <button type="submit" class="primary">Sign in</button>
+  <div class="background-pattern"></div>
+  <div class="form-wrapper">
+    <h1>MikhailPoizon</h1>
+    <h2 style="text-align:center; margin-bottom: 1.5rem;">Регистрация</h2>
+    <form action="login.html">
+      <input type="text" placeholder="Логин" required>
+      <input type="password" placeholder="Пароль" required>
+      <input type="tel" placeholder="Номер телефона" required>
+      <input type="email" placeholder="Почта" required>
+      <button type="submit">Зарегистрироваться</button>
     </form>
-
-
-
-</div>
+  </div>
 </body>
-
 </html>
+

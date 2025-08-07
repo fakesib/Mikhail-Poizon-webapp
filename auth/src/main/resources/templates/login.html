@@ -1,35 +1,114 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-
+<html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <title>Please sign in</title>
-  <link href="/default-ui.css" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Авторизация - MichailPoizon</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(1, #ffffff 100%,);
+      color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+    .form-wrapper {
+      max-width: 400px;
+      width: 100%;
+      padding: 2rem;
+      background-color: #fff;
+      border: 1px solid #000;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      position: relative;
+      z-index: 2;
+    }
+    .form-wrapper h1 {
+      font-size: 3rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      color: #000;
+      text-shadow: 3px 3px 0 #84FFFE, 6px 6px 0 #00000022;
+      position: absolute;
+      top: -80px;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      z-index: 1;
+    }
+    .form-wrapper input {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #000;
+      border-radius: 6px;
+      background-color: #fff;
+      color: #000;
+    }
+    .form-wrapper button {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #84FFFE;
+      color: #000;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-bottom: 1rem;
+    }
+    .small-actions {
+      text-align: center;
+      font-size: 0.85rem;
+      margin-top: 1rem;
+    }
+    .small-actions a {
+      color: #000;
+      text-decoration: none;
+      margin: 0 0.5rem;
+    }
+    .register-link {
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .register-link a {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background-color: transparent;
+      border: 1px solid #000;
+      border-radius: 6px;
+      color: #000;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    
+    
+  </style>
 </head>
-
 <body>
-<div class="content">
-  <form class="login-form" method="post" th:action="@{/auth/login}">
-    <h2>Sign in</h2>
-    <p>
-      <label for="username" class="screenreader">Username</label>
-      <input type="text" id="username" name="username" placeholder="Username" required autofocus>
-    </p>
-    <p>
-      <label for="password" class="screenreader">Passwor</label>
-      <input type="password" id="password" name="password" placeholder="Password" required>
-    </p>
-
-
-    <button type="submit" class="primary">Sign in</button>
-  </form>
-
-
-
-</div>
+  <div class="background-pattern"></div>
+  <div class="form-wrapper">
+    <h1>MikhailPoizon</h1>
+    <h2 style="text-align:center; margin-bottom: 1.5rem;">Авторизация</h2>
+    <form>
+      <input type="text" placeholder="Логин" required>
+      <input type="password" placeholder="Пароль" required>
+      <button type="submit">Войти</button>
+    </form>
+    <div class="small-actions">
+      <a href="#">Забыли пароль?</a> |
+      <a href="#">Запомнить меня</a>
+    </div>
+    <div class="register-link">
+      <a href="register.html">Зарегистрироваться</a>
+    </div>
+  </div>
 </body>
-
 </html>
