@@ -27,7 +27,7 @@ services:
     image: ghcr.io/fakesib/gateway-service
     container_name: gateway-service
     ports:
-      - "80:8080"
+      - "8080:8080"
 
   profile-service:
     image: ghcr.io/fakesib/profile-service
@@ -69,6 +69,18 @@ services:
     container_name: redis
     ports:
       - "6379:6379"
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    depends_on:
+      - gateway-service
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./certs:/etc/nginx/certs
 
 volumes:
   db-data:
