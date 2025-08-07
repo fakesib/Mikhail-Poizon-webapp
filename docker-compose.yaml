@@ -7,6 +7,8 @@ services:
       - redis
     ports:
       - "8081:8081"
+    networks:
+      - app-network
 
   database-service:
     image: ghcr.io/fakesib/database-service
@@ -22,12 +24,16 @@ services:
         condition: service_healthy
     ports:
       - "8083"
+    networks:
+      - app-network
 
   gateway-service:
     image: ghcr.io/fakesib/gateway-service
     container_name: gateway-service
     ports:
       - "8080:8080"
+    networks:
+      - app-network
 
   profile-service:
     image: ghcr.io/fakesib/profile-service
@@ -37,6 +43,8 @@ services:
       - redis
     ports:
       - "8082:8082"
+    networks:
+      - app-network
 
   feed-service:
     image: ghcr.io/fakesib/feed-service
@@ -46,6 +54,8 @@ services:
       - redis
     ports:
       - "8084:8084"
+    networks:
+      - app-network
   
   postgres-service:
     image: postgres:16.0
@@ -63,12 +73,16 @@ services:
       ["db-data:/var/lib/postgresql/data"]
     ports:
       - "5432"
+    networks:
+      - app-network
 
   redis:
     image: redis:8.2.0
     container_name: redis
     ports:
       - "6379:6379"
+    networks:
+      - app-network
 
   nginx:
     image: nginx:latest
@@ -80,6 +94,12 @@ services:
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
       - ./certs:/etc/nginx/certs
+    networks:
+      - app-network
 
 volumes:
   db-data:
+
+networks:
+  app-network:
+    driver: bridge
