@@ -30,8 +30,10 @@ services:
   gateway-service:
     image: ghcr.io/fakesib/gateway-service
     container_name: gateway-service
-    ports:
-      - "8080:8080"
+    #ports:
+    #  - "8080:8080"
+    expose:
+      - "8080"
     networks:
       - app-network
 
@@ -52,8 +54,10 @@ services:
     depends_on:
       - gateway-service
       - redis
-    ports:
-      - "8084:8084"
+    # ports:
+    #   - "8084:8084"
+    expose:
+      - "8084"
     networks:
       - app-network
   
