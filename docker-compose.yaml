@@ -107,7 +107,7 @@ services:
     volumes:
       - ./certbot/www:/var/www/certbot
       - ./certbot/conf:/etc/letsencrypt
-    command: certonly --webroot -w /var/www/certbot -d mikhailpoizon.ru --email fakesibwork@gmail.com --agree-tos
+    command: certonly --webroot -w /var/www/certbot -d ${DOMAIN} --email ${EMAIL} --agree-tos
 
 volumes:
   db-data:
