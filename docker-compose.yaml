@@ -1,0 +1,117 @@
+services:
+  auth-service:
+    image: ghcr.io/fakesib/auth-service
+    container_name: auth-service
+    depends_on:
+      - gateway-service
+      - redis
+    expose:
+      - "8081"
+    networks:
+      - app-network
+
+  database-service:
+    image: ghcr.io/fakesib/database-service
+    container_name: database-service
+    environment:
+      DB_HOST: postgres-service
+      DB_PORT: 5432
+      DB_NAME: mikhailpoizon_docker
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+    depends_on:
+      postgres-service: 
+        condition: service_healthy
+    expose:
+      - "8083"
+    networks:
+      - app-network
+
+  gateway-service:
+    image: ghcr.io/fakesib/gateway-service
+    container_name: gateway-service
+    expose:
+      - "8080"
+    networks:
+      - app-network
+
+  profile-service:
+    image: ghcr.io/fakesib/profile-service
+    container_name: profile-service
+    depends_on:
+      - gateway-service
+      - redis
+    expose:
+      - "8082"
+    networks:
+      - app-network
+
+  feed-service:
+    image: ghcr.io/fakesib/feed-service
+    container_name: feed-service
+    depends_on:
+      - gateway-service
+      - redis
+    expose:
+      - "8084"
+    networks:
+      - app-network
+  
+  postgres-service:
+    image: postgres:16.0
+    container_name: postgres-service
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: mikhailpoizon_docker
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d mikhailpoizon_docker"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      ["db-data:/var/lib/postgresql/data"]
+    ports:
+      - "5432"
+    networks:
+      - app-network
+
+  redis:
+    image: redis:8.2.0
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    depends_on:
+      - gateway-service
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./certbot/www:/var/www/certbot
+      - ./certbot/conf:/etc/letsencrypt
+    networks:
+      - app-network
+
+  certbot:
+    image: certbot/certbot
+    depends_on:
+      - nginx
+    volumes:
+      - ./certbot/www:/var/www/certbot
+      - ./certbot/conf:/etc/letsencrypt
+    command: certonly --webroot -w /var/www/certbot -d mikhailpoizon.ru --email fakesibwork@gmail.com --agree-tos
+
+volumes:
+  db-data:
+
+networks:
+  app-network:
+    driver: bridge

@@ -1,5 +1,5 @@
 server:
-  port: 8082
+  port: 8084
   forward-headers-strategy: framework
   servlet:
     session:
@@ -11,7 +11,7 @@ server:
 
 spring:
   application:
-    name: profile-service
+    name: feed-service
   session:
     store-type: redis
   redis:
