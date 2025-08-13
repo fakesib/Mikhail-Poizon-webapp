@@ -19,3 +19,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+jwt:
+  token: ${JWT_TOKEN}
