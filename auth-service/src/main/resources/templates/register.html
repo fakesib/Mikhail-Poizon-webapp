@@ -1,35 +1,282 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-
+<html lang="ru">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>Please sign in</title>
-    <link href="/default-ui.css" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MikhailPoizon - Авторизация</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #ffffff;
+            color: #252525;
+            font-size: 14px;
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 384px;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            position: relative;
+        }
+
+        .company-name {
+            position: absolute;
+            top: 0;
+            left: 0;
+            font-size: 24px;
+            font-weight: 400;
+            color: #252525;
+        }
+
+        .header {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 40px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 400;
+            color: #252525;
+        }
+
+        .header p {
+            color: #717182;
+            font-weight: 400;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding: 24px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-fields {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .field-group label {
+            font-weight: 500;
+            color: #252525;
+            font-size: 14px;
+        }
+
+        .field-group input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            background-color: #f3f3f5;
+            color: #252525;
+            font-size: 14px;
+            font-weight: 400;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .field-group input::placeholder {
+            color: #717182;
+        }
+
+        .field-group input:focus {
+            border-color: #84FFFE;
+            box-shadow: 0 0 0 2px rgba(132, 255, 254, 0.2);
+        }
+
+        .button-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .button-center {
+            text-align: center;
+        }
+
+        button {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.5;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            outline: none;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: #717182;
+            padding: 8px 16px;
+            flex: 1;
+        }
+
+        .btn-ghost:hover {
+            color: #252525;
+            background-color: rgba(132, 255, 254, 0.1);
+        }
+
+        .btn-primary {
+            background-color: #84FFFE;
+            color: #030213;
+            padding: 8px 32px;
+            min-width: 120px;
+        }
+
+        .btn-primary:hover {
+            background-color: rgba(132, 255, 254, 0.9);
+        }
+
+        .btn-primary:active {
+            background-color: rgba(132, 255, 254, 0.8);
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                max-width: 100%;
+                gap: 24px;
+            }
+            
+            .header h1 {
+                font-size: 20px;
+            }
+            
+            button {
+                font-size: 12px;
+            }
+            
+            .btn-primary {
+                padding: 10px 24px;
+            }
+        }
+    </style>
 </head>
-
 <body>
-<div class="content">
-    <form class="login-form" method="post" th:action="@{/auth/register}">
-        <h2>Registration</h2>
-        <p>
-            <label for="username" class="screenreader">Username</label>
-            <input type="text" id="username" name="username" placeholder="Username" required autofocus>
-        </p>
-        <p>
-            <label for="password" class="screenreader">Password</label>
-            <input type="password" id="password" name="password" placeholder="Password" required>
-        </p>
+    <div class="login-container">
+        <!-- Company Name -->
+        <div class="company-name">MikhailPoizon</div>
 
+        <!-- Header -->
+        <div class="header">
+            <h1>Авторизация</h1>
+        </div>
 
-        <button type="submit" class="primary">Sign in</button>
-    </form>
+        <!-- Login Form -->
+        <div class="form-container">
+            <div class="form-fields">
+                <div class="field-group">
+                    <label for="username">Имя пользователя</label>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        placeholder="Введите имя пользователя"
+                        required
+                    >
+                </div>
+                <div class="field-group">
+                    <label for="password">Пароль</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        placeholder="Введите пароль"
+                        required
+                    >
+                </div>
+            </div>
 
+            <!-- Forgot Password and Register Buttons -->
+            <div class="button-row">
+                <button type="button" class="btn-ghost" onclick="handleForgotPassword()">
+                    Забыли пароль?
+                </button>
+                <button type="button" class="btn-ghost" onclick="handleRegister()">
+                    Зарегистрироваться
+                </button>
+            </div>
 
+            <!-- Login Button -->
+            <div class="button-center">
+                <button type="submit" class="btn-primary" onclick="handleLogin()">
+                    Войти
+                </button>
+            </div>
+        </div>
+    </div>
 
-</div>
+    <script>
+        function handleLogin() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (!username || !password) {
+                alert('Пожалуйста, заполните все поля');
+                return;
+            }
+            
+            console.log('Login attempt:', { username, password });
+            alert('Попытка входа: ' + username);
+        }
+
+        function handleForgotPassword() {
+            console.log('Forgot password clicked');
+            alert('Функция восстановления пароля');
+        }
+
+        function handleRegister() {
+            console.log('Register clicked');
+            alert('Переход к регистрации');
+        }
+
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                handleLogin();
+            }
+        });
+
+        document.getElementById('username').addEventListener('input', function(e) {
+            if (e.target.value.length > 0) {
+                e.target.style.borderColor = '#84FFFE';
+            } else {
+                e.target.style.borderColor = 'rgba(0, 0, 0, 0.1)';
+            }
+        });
+
+        document.getElementById('password').addEventListener('input', function(e) {
+            if (e.target.value.length > 0) {
+                e.target.style.borderColor = '#84FFFE';
+            } else {
+                e.target.style.borderColor = 'rgba(0, 0, 0, 0.1)';
+            }
+        });
+    </script>
 </body>
-
 </html>
