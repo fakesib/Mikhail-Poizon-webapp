@@ -8,6 +8,12 @@ spring:
   cloud:
     gateway:
       routes:
+        - id: root-to-feed
+          uri: http://feed-service:8084
+          predicates:
+            - Path=/
+          filters:
+            - RedirectTo=302, /feed
         - id: profile-service
           uri: http://profile-service:8082
           predicates:
