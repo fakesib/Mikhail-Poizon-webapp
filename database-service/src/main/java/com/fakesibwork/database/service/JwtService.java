@@ -23,7 +23,6 @@ public class JwtService {
     }
 
     public boolean isTokenValid(String token) {
-        System.out.println(token);
         try {
             Jwts.parserBuilder()
                     .setSigningKey(getSigningKey())

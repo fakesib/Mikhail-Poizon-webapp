@@ -15,7 +15,6 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        System.out.println("JWT AUTHENTICATION PROVIDER");
         if (!jwtService.isTokenValid(authentication.getCredentials().toString())) {
             System.out.println(authentication.getCredentials().toString());
             throw new RuntimeException("Invalid JWT");
