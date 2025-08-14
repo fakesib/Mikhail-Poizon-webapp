@@ -15,11 +15,6 @@ public class AuthServiceApplication {
 		return new BCryptPasswordEncoder();
 	}
 
-	@Bean
-	public RestTemplate restTemplate() {
-		return new RestTemplate();
-	}
-
 	public static void main(String[] args) {
 		SpringApplication.run(AuthServiceApplication.class, args);
 	}

@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\auth",
+    "\\auth\\src",
+    "\\auth\\src\\main",
+    "\\auth\\src\\main\\java",
+    "\\auth\\src\\main\\java\\com\\fakesibwork",
+    "\\auth\\src\\main\\java\\com\\fakesibwork\\auth",
+    "\\auth\\src\\main\\java\\com\\fakesibwork\\auth\\config",
+    "\\auth\\src\\main\\resources",
+    "\\auth\\src\\main\\resources\\templates"
+  ],
+  "SelectedNode": "\\auth\\src\\main\\resources\\templates\\register.html",
+  "PreviewInSolutionExplorer": false
+}
