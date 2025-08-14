@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MikhailPoizon - Вход</title>
         <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="../static/css/login.css">
+    <link rel="stylesheet" th:href="@{/css/page.css}">
+    <link rel="stylesheet" href="/static/css/login.css">
 </head>
 <body>
     <div class="login-container">
@@ -16,7 +17,7 @@
         </div>
 
         <!-- Login Form -->
-        <div class="form-container">
+        <form class="form-container" method="post" th:action="@{/auth/login}">
             <div class="form-fields">
                 <div class="field-group">
                     <label for="username">Имя пользователя</label>
@@ -56,8 +57,9 @@
                     Войти
                 </button>
             </div>
-        </div>
+        </form>
     </div>
-     <script type="text/javascript" src="../static/js/login.js"></script>
+    <script type="text/javascript" th:src="@{/js/login.js}"></script>
+    <script type="text/javascript" src="/static/js/login.js"></script>
 </body>
 </html>
