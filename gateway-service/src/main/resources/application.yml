@@ -14,10 +14,6 @@ spring:
             - Path=/
           filters:
             - RedirectTo=302, /feed
-        - id: frontend
-          uri: lb://frontend-service
-          predicates:
-            - Path=/css/**, /js/**, /images/**, /favicon.ico
         - id: profile-service
           uri: http://profile-service:8082
           predicates:
