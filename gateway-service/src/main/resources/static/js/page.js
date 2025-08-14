@@ -134,34 +134,6 @@
             closeDropdown();
         });
 
-        // Handle dropdown item clicks
-        document.querySelectorAll('.dropdown-item').forEach(item => {
-            item.addEventListener('click', function(e) {
-                e.preventDefault();
-                closeDropdown();
-                
-                // Handle different actions
-                const href = this.getAttribute('href');
-                console.log('Navigating to:', href);
-                
-                // Add your navigation logic here
-                // For example: window.location.href = href;
-            });
-        });
-
-        // Handle control panel item clicks
-        document.querySelectorAll('.control-panel-item').forEach(item => {
-            item.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const href = this.getAttribute('href');
-                console.log('Navigating to:', href);
-                
-                // Add your navigation logic here
-                // For example: window.location.href = href;
-            });
-        });
-
         // Handle content card title clicks
         document.addEventListener('click', function(e) {
             if (e.target.classList.contains('content-card-title')) {
