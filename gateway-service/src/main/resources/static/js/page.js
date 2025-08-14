@@ -4,7 +4,7 @@
                 id: 1,
                 title: "Скоро тут будут новости",
                 description: "Это только первый релиз, сильно не ругайте",
-                image: "../static/photos/news.png",
+                image: "/photos/news.png",
                 author: "",
                 date: "8 авг 2025"
             },
