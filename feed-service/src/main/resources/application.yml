@@ -21,3 +21,6 @@ spring:
 logging:
   level:
     org.springframework.data.redis: DEBUG
+
+jwt:
+  token: JWT_TOKEN

@@ -8,11 +8,6 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 public class ProfileApplication {
 
-	@Bean
-	public RestTemplate restTemplate() {
-		return new RestTemplate();
-	}
-
 	public static void main(String[] args) {
 		SpringApplication.run(ProfileApplication.class, args);
 	}
