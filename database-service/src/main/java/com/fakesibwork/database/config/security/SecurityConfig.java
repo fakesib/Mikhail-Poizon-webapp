@@ -16,15 +16,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    @Bean
-    public JwtAuthenticationProvider jwtAuthenticationProvider() {
-        return new JwtAuthenticationProvider();
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager() {
-        return new ProviderManager(jwtAuthenticationProvider());
-    }
+//    @Bean
+//    public JwtAuthenticationProvider jwtAuthenticationProvider() {
+//        return new JwtAuthenticationProvider();
+//    }
+//
+//    @Bean
+//    public AuthenticationManager authenticationManager() {
+//        return new ProviderManager(jwtAuthenticationProvider());
+//    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationManager authenticationManager) throws Exception {
