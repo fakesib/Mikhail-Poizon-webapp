@@ -1,0 +1,73 @@
+name: Database service deploy
+
+on:
+  push:
+    branches:
+      - 'main'
+    paths:
+      - 'database-service/**'
+  
+  pull_request:
+    branches:
+      - 'main'
+    paths:
+      - 'database-service/**'  
+    types:
+      - closed 
+
+env:
+  SERVICE_NAME: database-service
+  REGISTRY: ghcr.io
+
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+
+      - name: Build module
+        run: ./gradlew clean :${{ env.SERVICE_NAME }}:build -x test 
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        run: echo "${{ secrets.GH_TOKEN }}" | docker login ${{ env.REGISTRY }} -u "${{ secrets.GH_USERNAME }}" --password-stdin
+
+      - name: Creating image
+        run: docker build -f ${{ env.SERVICE_NAME }}/Dockerfile -t ${{ env.REGISTRY }}/${{ secrets.GH_USERNAME }}/${{ env.SERVICE_NAME }} ${{ env.SERVICE_NAME }}/
+
+      - name: Push image
+        run: docker push ${{ env.REGISTRY }}/${{ secrets.GH_USERNAME }}/${{ env.SERVICE_NAME }}
+  
+  start:
+    runs-on: ubuntu-latest
+    needs: compile
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+      
+      - name: Transfer docker-compose.yaml
+        run: scp docker-compose.yaml ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SERVER_PATH  }}
+
+      - name: Stop docker compose
+        run: |
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.SERVER_PATH }} && docker compose down --rmi all ${{ env.SERVICE_NAME }}"
+      
+      - name: Run docker container
+        run: | 
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.SERVER_PATH }} && \
+          export SECRET_JWT_TOKEN=${{ secrets.SECRET_JWT_TOKEN }} && \
+          docker compose up ${{ env.SERVICE_NAME }} -d"

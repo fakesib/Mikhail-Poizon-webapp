@@ -1,5 +1,7 @@
 name: Deploy Action
 
+run-name: Reload all services
+
 on: [workflow_dispatch]
 
 env:
