@@ -116,6 +116,12 @@ services:
       - ./certbot/conf:/etc/letsencrypt
     command: certonly --webroot -w /var/www/certbot -d ${DOMAIN} --email ${EMAIL} --agree-tos
 
+  kafka:
+    image: apache/kafka
+    container_name: kafka-service
+    ports:
+      - "9092:9092"
+
 volumes:
   db-data:
 
