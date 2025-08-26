@@ -22,6 +22,7 @@ public class AuthService {
         restTemplate.postForEntity(USER_SERVICE_URL, UserDto.builder()
                         .username(username)
                         .password(passwordEncoder.encode(password))
+                        .email(null)
                         .role(Role.USER)
                 .build(), UserDto.class);
     }
