@@ -2,7 +2,6 @@ package com.fakesibwork.profile.service;
 
 import com.fakesibwork.profile.service.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
