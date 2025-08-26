@@ -23,7 +23,7 @@ services:
       DB_PASSWORD: postgres
       JWT_TOKEN: ${SECRET_JWT_TOKEN}
     depends_on:
-      postgres-service: 
+      postgres-service:
         condition: service_healthy
     expose:
       - "8083"
@@ -46,6 +46,7 @@ services:
     depends_on:
       - gateway-service
       - redis
+      - kafka
     expose:
       - "8082"
     networks:
@@ -63,7 +64,7 @@ services:
       - "8084"
     networks:
       - app-network
-  
+
   postgres-service:
     image: postgres:16.0
     container_name: postgres-service
@@ -118,9 +119,19 @@ services:
 
   kafka:
     image: apache/kafka
-    container_name: kafka-service
+    container_name: kafka
     ports:
       - "9092:9092"
+    environment:
+      KAFKA_KRAFT_MODE: "true"
+      KAFKA_BROKER_ID: 1
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka:9092"
+      KAFKA_LOG_DIRS: "/kafka-logs"
+    networks:
+      - app-network
 
 volumes:
   db-data:
