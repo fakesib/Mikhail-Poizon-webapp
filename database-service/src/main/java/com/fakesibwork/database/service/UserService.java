@@ -1,6 +1,6 @@
 package com.fakesibwork.database.service;
 
-import com.fakesibwork.database.dto.UserDTO;
+import com.fakesibwork.database.dto.UserDto;
 import com.fakesibwork.database.exception.UserIsPresentException;
 import com.fakesibwork.database.model.User;
 import com.fakesibwork.database.repository.UserRepo;
@@ -13,22 +13,24 @@ public class UserService {
     @Autowired
     private UserRepo userRepo;
 
-    public UserDTO getUser(String username) {
+    public UserDto getUser(String username) {
         User user = userRepo.findByUsername(username)
                 .orElseThrow(RuntimeException::new);
-        return UserDTO.builder()
+        return UserDto.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
+                .email(user.getEmail())
                 .role(user.getRole())
                 .build();
     }
 
-    public void addUser(UserDTO userDTO) {
-        if (userRepo.findByUsername(userDTO.username).isEmpty()) {
+    public void addUser(UserDto userDto) {
+        if (userRepo.findByUsername(userDto.getUsername()).isEmpty()) {
             var user = new User();
-            user.setUsername(userDTO.username);
-            user.setPassword(userDTO.password);
-            user.setRole(userDTO.role);
+            user.setUsername(userDto.getUsername());
+            user.setPassword(userDto.getPassword());
+            user.setEmail(userDto.getEmail());
+            user.setRole(userDto.getRole());
             userRepo.save(user);
         } else {
             throw new UserIsPresentException();
