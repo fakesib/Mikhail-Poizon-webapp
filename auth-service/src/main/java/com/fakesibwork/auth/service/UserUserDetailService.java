@@ -1,6 +1,6 @@
 package com.fakesibwork.auth.service;
 
-import com.fakesibwork.auth.dto.UserDTO;
+import dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,14 +22,14 @@ public class UserUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UserDTO user = restTemplate.getForEntity(USER_SERVICE_URL + username, UserDTO.class).getBody();
-        if (user.username == null) {
+        UserDto user = restTemplate.getForEntity(USER_SERVICE_URL + username, UserDto.class).getBody();
+        if (user.getUsername() == null) {
             throw new RuntimeException("User not found");
         }
         return builder()
-                .username(user.username)
-                .password(user.password)
-                .roles(user.role)
+                .username(user.getUsername())
+                .password(user.getUsername())
+                .roles(String.valueOf(user.getRole()))
                 .build();
     }
 }

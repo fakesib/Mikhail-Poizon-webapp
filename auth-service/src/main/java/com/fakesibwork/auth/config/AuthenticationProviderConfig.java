@@ -1,6 +1,6 @@
 package com.fakesibwork.auth.config;
 
-import com.fakesibwork.auth.dto.UserDTO;
+import dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -31,17 +31,17 @@ public class AuthenticationProviderConfig implements AuthenticationProvider {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
 
-        var user = restTemplate.getForEntity(USER_SERVICE_URL + username, UserDTO.class).getBody();
+        var user = restTemplate.getForEntity(USER_SERVICE_URL + username, UserDto.class).getBody();
 
         if (user == null) {
             throw new RuntimeException("User not found");
         }
 
-        if (!passwordEncoder.matches(password, user.password)) {
+        if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new BadCredentialsException("Неверное имя пользователя или пароль");
         }
 
-        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + user.role));
+        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
 
         return new UsernamePasswordAuthenticationToken(username, password, authorities);
     }
