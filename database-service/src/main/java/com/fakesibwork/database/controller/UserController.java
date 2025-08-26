@@ -1,6 +1,6 @@
 package com.fakesibwork.database.controller;
 
-import com.fakesibwork.database.dto.UserDTO;
+import com.fakesibwork.database.dto.UserDto;
 import com.fakesibwork.database.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +13,12 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/{username}")
-    public UserDTO getUserByUsername(@PathVariable String username) {
+    public UserDto getUserByUsername(@PathVariable String username) {
         return userService.getUser(username);
     }
 
     @PostMapping("/add")
-    public void updateUserByUsername(@RequestBody UserDTO userDTO) {
+    public void updateUserByUsername(@RequestBody UserDto userDTO) {
         userService.addUser(userDTO);
     }
 
