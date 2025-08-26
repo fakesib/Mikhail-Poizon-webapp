@@ -1,6 +1,6 @@
 package com.fakesibwork.database.service;
 
-import com.fakesibwork.database.dto.UserDto;
+import dto.UserDto;
 import com.fakesibwork.database.exception.UserIsPresentException;
 import com.fakesibwork.database.model.User;
 import com.fakesibwork.database.repository.UserRepo;

@@ -1,6 +1,7 @@
 package com.fakesibwork.auth.service;
 
-import com.fakesibwork.auth.dto.UserDTO;
+import dto.Role;
+import dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,10 +19,10 @@ public class AuthService {
     private PasswordEncoder passwordEncoder;
 
     public void register(String username, String password) {
-        restTemplate.postForEntity(USER_SERVICE_URL, UserDTO.builder()
+        restTemplate.postForEntity(USER_SERVICE_URL, UserDto.builder()
                         .username(username)
                         .password(passwordEncoder.encode(password))
-                        .role("USER")
-                .build(), UserDTO.class);
+                        .role(Role.USER)
+                .build(), UserDto.class);
     }
 }
