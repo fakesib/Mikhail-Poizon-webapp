@@ -130,6 +130,7 @@ services:
       KAFKA_PROCESS_ROLES: broker,controller
       KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka:9092"
       KAFKA_LOG_DIRS: "/kafka-logs"
+      KAFKA_CONTROLLER_LISTENER_NAMES: PLAINTEXT
     networks:
       - app-network
 
