@@ -12,6 +12,21 @@ services:
     networks:
       - app-network
 
+  mail-service:
+    image: ghcr.io/fakesib/mail-service
+    container_name: mail-service
+    environment:
+      EMAIL: ${EMAIL}
+      EMAIL_PASSWORD: ${EMAIL_PASSWORD}
+    depends_on:
+      - gateway-service
+      - redis
+      - kafka
+    expose:
+      - "8085"
+    networks:
+      - app-network
+
   database-service:
     image: ghcr.io/fakesib/database-service
     container_name: database-service
