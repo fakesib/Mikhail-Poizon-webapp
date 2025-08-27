@@ -1,4 +1,4 @@
-package com.fakesibwork.profile.service.dto;
+package dto;
 
 import lombok.*;
 
@@ -11,5 +11,5 @@ public class UserDto {
     private String username;
     private String password;
     private String email;
-    private String role;
+    private Role role;
 }

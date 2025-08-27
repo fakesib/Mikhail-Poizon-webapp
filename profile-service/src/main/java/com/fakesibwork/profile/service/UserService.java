@@ -1,7 +1,8 @@
 package com.fakesibwork.profile.service;
 
-import com.fakesibwork.profile.service.dto.UserDto;
+import dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -13,10 +14,14 @@ public class UserService {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private KafkaTemplate<String, UserDto> kafkaTemplate;
+
     public UserDto getUser(String username) {
         return restTemplate.getForEntity(USER_SERVICE_URL + username, UserDto.class).getBody();
     }
 
-    public void sendConfirmationMail(String name) {
+    public void sendConfirmationMail(UserDto userDto) {
+        kafkaTemplate.send("confirm-mail-event-topic", userDto.getUsername(), userDto);
     }
 }

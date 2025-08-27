@@ -1,4 +1,6 @@
 dependencies {
+    implementation project(":common-lib")
+    implementation("org.springframework.kafka:spring-kafka:4.0.0-M1")
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.session:spring-session-data-redis:3.4.3'
