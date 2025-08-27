@@ -82,8 +82,8 @@ jobs:
       - name: Start docker compose
         run: |
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd mikhail_poizon/web/ && \
-          export EMAIL_USERNAME=${{ secrets.EMAIL_USERNAME }} && \
-          export EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }} && \
+          export EMAIL_USERNAME='${{ secrets.EMAIL_USERNAME }}' && \
+          export EMAIL_PASSWORD='${{ secrets.EMAIL_PASSWORD }}' && \
           export DOMAIN=${{ secrets.DOMAIN }} && \
           export SERVICE_JWT_TOKEN=${{ secrets.SERVICE_JWT_TOKEN }} && \
           export SECRET_JWT_TOKEN=${{ secrets.SECRET_JWT_TOKEN }} && \
