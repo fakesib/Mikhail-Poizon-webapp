@@ -51,6 +51,11 @@ jobs:
         run: |
           docker build -f profile-service/Dockerfile -t ${{ env.REGISTRY }}/${{ secrets.GH_USERNAME }}/profile-service profile-service/
           docker push ${{ env.REGISTRY }}/${{ secrets.GH_USERNAME }}/profile-service
+      
+      - name: Build mail-service image
+        run: |
+          docker build -f mail-service/Dockerfile -t ${{ env.REGISTRY }}/${{ secrets.GH_USERNAME }}/mail-service mail-service/
+          docker push ${{ env.REGISTRY }}/${{ secrets.GH_USERNAME }}/mail-service
   
   # 2 start application
   start:
@@ -78,6 +83,7 @@ jobs:
         run: |
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd mikhail_poizon/web/ && \
           export EMAIL=${{ secrets.EMAIL }} && \
+          export EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }} && \
           export DOMAIN=${{ secrets.DOMAIN }} && \
           export SERVICE_JWT_TOKEN=${{ secrets.SERVICE_JWT_TOKEN }} && \
           export SECRET_JWT_TOKEN=${{ secrets.SECRET_JWT_TOKEN }} && \
