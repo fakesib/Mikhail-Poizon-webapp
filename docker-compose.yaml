@@ -16,7 +16,7 @@ services:
     image: ghcr.io/fakesib/mail-service
     container_name: mail-service
     environment:
-      EMAIL: ${EMAIL}
+      EMAIL_USERNAME: ${EMAIL_USERNAME}
       EMAIL_PASSWORD: ${EMAIL_PASSWORD}
     depends_on:
       - gateway-service
