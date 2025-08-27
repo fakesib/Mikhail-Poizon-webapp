@@ -21,7 +21,6 @@ public class MailService {
     @Autowired
     private JavaMailSender mailSender;
 
-
     @Autowired
     private TemplateEngine templateEngine;
 
