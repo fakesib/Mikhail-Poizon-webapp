@@ -16,7 +16,7 @@
     </div>
 
     <div th:if="${user.email != null}">
-        <form th:action="@{profile/send-confirm-mail}">
+        <form method="post" th:action="@{/profile/send-confirm-mail}">
             <button type="submit">Подтвердить почту</button>
         </form>
     </div>

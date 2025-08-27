@@ -15,13 +15,13 @@ public class UserService {
     private RestTemplate restTemplate;
 
     @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
+    private KafkaTemplate<String, UserDto> kafkaTemplate;
 
     public UserDto getUser(String username) {
         return restTemplate.getForEntity(USER_SERVICE_URL + username, UserDto.class).getBody();
     }
 
-    public void sendConfirmationMail(String username) {
-        kafkaTemplate.send("confirm-mail-event-topic", username, username);
+    public void sendConfirmationMail(UserDto userDto) {
+        kafkaTemplate.send("confirm-mail-event-topic", userDto.getUsername(), userDto);
     }
 }
