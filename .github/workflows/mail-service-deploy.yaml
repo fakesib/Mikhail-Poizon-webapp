@@ -69,6 +69,6 @@ jobs:
       - name: Run docker container
         run: |
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.SERVER_PATH }} \
-          && export EMAIL=${{ secrets.EMAIL }} \
+          && export EMAIL_USERNAME=${{ secrets.EMAIL_USERNAME }} \
           && export EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }} \
           && docker compose up ${{ env.SERVICE_NAME }} -d"
