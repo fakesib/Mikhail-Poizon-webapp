@@ -14,7 +14,7 @@ import java.net.http.HttpResponse;
 @Service
 public class AuthService {
 
-    private static final String USER_SERVICE_URL = "http://database-service:8083/api/user";
+    private static final String USER_SERVICE_URL = "http://database-service:8083/api/user/";
 
     @Autowired
     private RestTemplate restTemplate;
@@ -32,7 +32,7 @@ public class AuthService {
     }
 
     public HttpStatus confirmMail(String verifyToken) {
-        var response = restTemplate.getForEntity(USER_SERVICE_URL + "/confirm-mail/" + verifyToken, HttpStatus.class);
+        var response = restTemplate.getForEntity(USER_SERVICE_URL + "confirm-mail/" + verifyToken, HttpStatus.class);
         return response.getBody();
     }
 }
