@@ -2,6 +2,7 @@ package com.fakesibwork.auth.controller;
 
 import com.fakesibwork.auth.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -33,9 +34,9 @@ public class AuthController {
     }
 
     @GetMapping("/confirm-mail/{verify_token}")
-    public String confirmMail(@PathVariable String verify_token) {
-        authService.confirmMail(verify_token);
-        return "Подтверждено";
+    public ResponseEntity<?> confirmMail(@PathVariable String verify_token) {
+        var status = authService.confirmMail(verify_token);
+        return ResponseEntity.status(status).build();
     }
 
 }

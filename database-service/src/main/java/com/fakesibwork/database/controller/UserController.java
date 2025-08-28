@@ -20,13 +20,9 @@ public class UserController {
 
     @GetMapping("confirm-mail/{verify_token}")
     public HttpStatus confirmMailByVerifyToken(@PathVariable String verify_token) {
-        System.out.println(verify_token);
-        try {
-            userService.confirmMail(verify_token);
+        if (userService.confirmMail(verify_token))
             return HttpStatus.OK;
-        } catch (Exception e) {
-            return HttpStatus.INTERNAL_SERVER_ERROR;
-        }
+        else return HttpStatus.BAD_REQUEST;
     }
 
     @PostMapping("/add")

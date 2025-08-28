@@ -31,8 +31,8 @@ public class AuthService {
                 .build(), UserDto.class);
     }
 
-    public void confirmMail(String verifyToken) {
+    public HttpStatus confirmMail(String verifyToken) {
         var response = restTemplate.getForEntity(USER_SERVICE_URL + "/confirm-mail/" + verifyToken, HttpStatus.class);
-        System.out.println(response);
+        return response.getBody();
     }
 }

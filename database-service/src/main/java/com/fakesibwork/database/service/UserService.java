@@ -42,9 +42,12 @@ public class UserService {
     }
 
 
-    public void confirmMail(String verifyToken) {
-        System.out.println(verifyToken);
-        System.out.println("USER SERVICE");
-        userRepo.updateVerifyToken(verifyToken);
+    public boolean confirmMail(String verifyToken) {
+        try {
+            userRepo.updateVerifyToken(verifyToken);
+            return true;
+        } catch (Exception e) {
+           return false;
+        }
     }
 }
