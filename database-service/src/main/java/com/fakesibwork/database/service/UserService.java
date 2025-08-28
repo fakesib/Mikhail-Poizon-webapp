@@ -29,7 +29,7 @@ public class UserService {
 
     public void addUser(UserDto userDto) {
         if (userRepo.findByUsername(userDto.getUsername()).isEmpty()) {
-            var user = new User();
+            User user = new User();
             user.setUsername(userDto.getUsername());
             user.setPassword(userDto.getPassword());
             user.setEmail(userDto.getEmail());
@@ -50,4 +50,18 @@ public class UserService {
            return false;
         }
     }
+
+    public void updateUser(UserDto userDto) {
+        User user = userRepo.findByUsername(userDto.getUsername())
+                .orElseThrow(RuntimeException::new);
+
+        user.setEmail(userDto.getEmail());
+
+        if (userRepo.findByUsername(user.getUsername()).isEmpty())
+            user.setUsername(userDto.getUsername());
+        else throw new UserIsPresentException();
+
+        userRepo.save(user);
+    }
+
 }

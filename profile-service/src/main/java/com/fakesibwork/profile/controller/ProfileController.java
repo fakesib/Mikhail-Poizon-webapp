@@ -34,6 +34,12 @@ public class ProfileController {
         return "redirect:/profile";
     }
 
+    @PostMapping("/update")
+    public String updateProfile(@ModelAttribute("user") UserDto userDto) {
+        userService.updateUser(userDto);
+        return "redirect:/profile";
+    }
+
 
     @GetMapping("/admin")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")

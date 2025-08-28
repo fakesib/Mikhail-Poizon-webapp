@@ -18,16 +18,21 @@ public class UserController {
         return userService.getUser(username);
     }
 
+    @PostMapping("/{username}")
+    public void addUser(@RequestBody UserDto userDto) {
+        userService.addUser(userDto);
+    }
+
+    @PutMapping("/{username}")
+    public void updateUser(@RequestBody UserDto userDto) {
+        userService.updateUser(userDto);
+    }
+
     @GetMapping("confirm-mail/{verify_token}")
     public HttpStatus confirmMailByVerifyToken(@PathVariable String verify_token) {
         if (userService.confirmMail(verify_token))
             return HttpStatus.OK;
         else return HttpStatus.BAD_REQUEST;
-    }
-
-    @PostMapping("/add")
-    public void updateUserByUsername(@RequestBody UserDto userDto) {
-        userService.addUser(userDto);
     }
 
 }
