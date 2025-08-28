@@ -35,6 +35,7 @@ public class AuthController {
     @GetMapping("/confirm-mail/{verify_token}")
     public String confirmMail(@PathVariable String verify_token) {
         authService.confirmMail(verify_token);
+        return "Подтверждено";
     }
 
 }
