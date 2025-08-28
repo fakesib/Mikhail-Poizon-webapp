@@ -6,8 +6,10 @@ import com.fakesibwork.database.model.User;
 import com.fakesibwork.database.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class UserService {
 
     @Autowired
@@ -42,6 +44,7 @@ public class UserService {
 
     public void confirmMail(String verifyToken) {
         System.out.println(verifyToken);
+        System.out.println("USER SERVICE");
         userRepo.updateVerifyToken(verifyToken);
     }
 }
