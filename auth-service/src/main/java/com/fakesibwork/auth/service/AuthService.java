@@ -23,7 +23,7 @@ public class AuthService {
     private PasswordEncoder passwordEncoder;
 
     public void register(String username, String password) {
-        restTemplate.postForEntity(USER_SERVICE_URL, UserDto.builder()
+        restTemplate.postForEntity(USER_SERVICE_URL + username, UserDto.builder()
                         .username(username)
                         .password(passwordEncoder.encode(password))
                         .email(null)

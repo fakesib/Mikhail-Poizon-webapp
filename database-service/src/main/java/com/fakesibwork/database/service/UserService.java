@@ -51,8 +51,8 @@ public class UserService {
         }
     }
 
-    public void updateUser(UserDto userDto) {
-        User user = userRepo.findByUsername(userDto.getUsername())
+    public void updateUser(String username, UserDto userDto) {
+        User user = userRepo.findByUsername(username)
                 .orElseThrow(RuntimeException::new);
 
         user.setEmail(userDto.getEmail());

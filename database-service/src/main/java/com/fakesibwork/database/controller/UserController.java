@@ -24,8 +24,10 @@ public class UserController {
     }
 
     @PutMapping("/{username}")
-    public void updateUser(@PathVariable String username, @RequestBody UserDto userDto) {
-        userService.updateUser(userDto);
+    public void updateUser(@PathVariable String username,
+                           @RequestBody UserDto userDto) {
+
+        userService.updateUser(username, userDto);
     }
 
     @GetMapping("confirm-mail/{verify_token}")

@@ -12,7 +12,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/profile")
-@SessionAttributes("user")
 public class ProfileController {
 
     @Autowired
