@@ -28,6 +28,9 @@ public class User {
     @Column(unique = true)
     private String email;
 
+    @Column(unique = true)
+    private String verify_token;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 

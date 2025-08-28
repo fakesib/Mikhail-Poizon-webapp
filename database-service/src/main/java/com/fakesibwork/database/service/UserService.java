@@ -21,6 +21,7 @@ public class UserService {
                 .password(user.getPassword())
                 .email(user.getEmail())
                 .role(user.getRole())
+                .verify_token(user.getVerify_token())
                 .build();
     }
 
@@ -31,9 +32,16 @@ public class UserService {
             user.setPassword(userDto.getPassword());
             user.setEmail(userDto.getEmail());
             user.setRole(userDto.getRole());
+            user.setVerify_token(userDto.getVerify_token());
             userRepo.save(user);
         } else {
             throw new UserIsPresentException();
         }
+    }
+
+
+    public void confirmMail(String verifyToken) {
+        System.out.println(verifyToken);
+        userRepo.updateVerifyToken(verifyToken);
     }
 }
