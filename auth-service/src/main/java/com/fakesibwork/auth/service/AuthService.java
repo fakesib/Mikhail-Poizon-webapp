@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.http.HttpResponse;
@@ -22,13 +23,17 @@ public class AuthService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public void register(String username, String password) {
-        restTemplate.postForEntity(USER_SERVICE_URL + username, UserDto.builder()
-                        .username(username)
-                        .password(passwordEncoder.encode(password))
-                        .email(null)
-                        .role(Role.USER)
-                .build(), UserDto.class);
+    public void register(String username, String password) throws RuntimeException{
+        try {
+            restTemplate.postForEntity(USER_SERVICE_URL + username, UserDto.builder()
+                    .username(username)
+                    .password(passwordEncoder.encode(password))
+                    .email(null)
+                    .role(Role.USER)
+                    .build(), UserDto.class);
+        } catch (RestClientException e) {
+            throw new RuntimeException();
+        }
     }
 
     public HttpStatus confirmMail(String verifyToken) {

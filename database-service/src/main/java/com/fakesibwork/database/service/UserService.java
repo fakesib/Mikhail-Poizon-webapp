@@ -29,7 +29,7 @@ public class UserService {
                 .build();
     }
 
-    public void addUser(UserDto userDto) {
+    public void addUser(UserDto userDto) throws UserIsPresentException{
         if (userRepo.findByUsername(userDto.getUsername()).isEmpty()) {
             User user = new User();
             user.setUsername(userDto.getUsername());

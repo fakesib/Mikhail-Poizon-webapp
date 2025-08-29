@@ -29,8 +29,12 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestParam("username") String username,
                                       @RequestParam("password") String password) {
-        authService.register(username, password);
-        return ResponseEntity.ok("Registered successfully");
+        try {
+            authService.register(username, password);
+            return ResponseEntity.ok("User registered");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body("User cannot be registered");
+        }
     }
 
     @GetMapping("/confirm-mail/{verify_token}")

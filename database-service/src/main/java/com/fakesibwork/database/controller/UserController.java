@@ -1,9 +1,9 @@
 package com.fakesibwork.database.controller;
 
+import com.fakesibwork.database.exception.UserIsPresentException;
 import com.fakesibwork.database.service.UserService;
 import dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,20 +20,25 @@ public class UserController {
     }
 
     @PostMapping("/{username}")
-    public void addUser(@RequestBody UserDto userDto) {
-        userService.addUser(userDto);
+    public ResponseEntity<?> addUser(@RequestBody UserDto userDto) {
+        try {
+            userService.addUser(userDto);
+            return ResponseEntity.ok("User added");
+        } catch (UserIsPresentException e) {
+            return ResponseEntity.status(400).body("User is already presents");
+        }
     }
 
     @PutMapping("/{username}")
-    public ResponseEntity<String> updateUser(@PathVariable String username,
-                                             @RequestBody UserDto userDto) {
+    public ResponseEntity<?> updateUser(@PathVariable String username,
+                                        @RequestBody UserDto userDto) {
 
         var status = userService.updateUser(username, userDto);
-        return new ResponseEntity<>(status);
+        return ResponseEntity.status(status).build();
     }
 
     @GetMapping("confirm-mail/{token}")
-    public ResponseEntity<String> confirmMailByVerifyToken(@PathVariable String token) {
+    public ResponseEntity<?> confirmMailByVerifyToken(@PathVariable String token) {
 
         var status = userService.confirmMail(token);
         return ResponseEntity.status(status).build();
