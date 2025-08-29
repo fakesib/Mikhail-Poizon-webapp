@@ -15,4 +15,6 @@ public interface UserRepo extends JpaRepository<User, Integer> {
     @Modifying
     @Query(value = "update users set verify_token = null where verify_token = ?1", nativeQuery = true)
     void updateVerifyToken(String verify_token);
+
+    Optional<User> findByEmail(String email);
 }

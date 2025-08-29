@@ -1,10 +1,12 @@
 package com.fakesibwork.database.service;
 
+import com.fakesibwork.database.exception.EmailIsPresentException;
 import dto.UserDto;
 import com.fakesibwork.database.exception.UserIsPresentException;
 import com.fakesibwork.database.model.User;
 import com.fakesibwork.database.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,27 +44,30 @@ public class UserService {
     }
 
 
-    public boolean confirmMail(String verifyToken) {
+    public HttpStatus confirmMail(String verifyToken) {
         try {
             userRepo.updateVerifyToken(verifyToken);
-            return true;
+            return HttpStatus.OK;
         } catch (Exception e) {
-           return false;
+            return HttpStatus.BAD_REQUEST;
         }
     }
 
-    public void updateUser(String username, UserDto userDto) {
+    public HttpStatus updateUser(String username, UserDto userDto) {
         User user = userRepo.findByUsername(username)
                 .orElseThrow(RuntimeException::new);
 
-        user.setEmail(userDto.getEmail());
-
+        if (userRepo.findByEmail(userDto.getEmail()).isEmpty())
+            user.setEmail(userDto.getEmail());
+        else return HttpStatus.BAD_REQUEST;
 
         if (userRepo.findByUsername(userDto.getUsername()).isEmpty())
             user.setUsername(userDto.getUsername());
-        else throw new UserIsPresentException();
+        else return HttpStatus.BAD_REQUEST;
 
         userRepo.save(user);
+
+        return HttpStatus.ACCEPTED;
     }
 
 }

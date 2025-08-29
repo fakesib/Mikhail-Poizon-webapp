@@ -4,6 +4,7 @@ import com.fakesibwork.database.service.UserService;
 import dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,17 +25,18 @@ public class UserController {
     }
 
     @PutMapping("/{username}")
-    public void updateUser(@PathVariable String username,
-                           @RequestBody UserDto userDto) {
+    public ResponseEntity<String> updateUser(@PathVariable String username,
+                                             @RequestBody UserDto userDto) {
 
-        userService.updateUser(username, userDto);
+        var status = userService.updateUser(username, userDto);
+        return new ResponseEntity<>(status);
     }
 
-    @GetMapping("confirm-mail/{verify_token}")
-    public HttpStatus confirmMailByVerifyToken(@PathVariable String verify_token) {
-        if (userService.confirmMail(verify_token))
-            return HttpStatus.OK;
-        else return HttpStatus.BAD_REQUEST;
+    @GetMapping("confirm-mail/{token}")
+    public ResponseEntity<String> confirmMailByVerifyToken(@PathVariable String token) {
+
+        var status = userService.confirmMail(token);
+        return ResponseEntity.status(status).build();
     }
 
 }
