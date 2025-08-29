@@ -34,8 +34,9 @@ public class ProfileController {
     }
 
     @PostMapping("/update")
-    public String updateProfile(@ModelAttribute("user") UserDto userDto) {
-        userService.updateUser(userDto);
+    public String updateProfile(Authentication authentication,
+                                @ModelAttribute("user") UserDto userDto) {
+        userService.updateUser(authentication.getName(), userDto);
         return "redirect:/profile";
     }
 

@@ -25,7 +25,7 @@ public class UserService {
         kafkaTemplate.send("confirm-mail-event-topic", userDto.getUsername(), userDto);
     }
 
-    public void updateUser(UserDto userDto) {
-        restTemplate.put(USER_SERVICE_URL + userDto.getUsername(), userDto);
+    public void updateUser(String username, UserDto userDto) {
+        restTemplate.put(USER_SERVICE_URL + username, userDto);
     }
 }
