@@ -33,6 +33,7 @@ public class ProfileController {
         return "redirect:/profile";
     }
 
+    //TODO redirect by status
     @PostMapping("/update")
     public String updateProfile(Authentication authentication,
                                 @ModelAttribute("user") UserDto userDto) {

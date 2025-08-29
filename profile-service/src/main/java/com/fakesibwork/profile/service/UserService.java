@@ -22,6 +22,7 @@ public class UserService {
     }
 
     public void sendConfirmationMail(UserDto userDto) {
+        System.out.println(userDto.getUsername() + userDto.getEmail());
         kafkaTemplate.send("confirm-mail-event-topic", userDto.getUsername(), userDto);
     }
 
