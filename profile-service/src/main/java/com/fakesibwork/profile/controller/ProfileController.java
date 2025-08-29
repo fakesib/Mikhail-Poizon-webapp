@@ -12,7 +12,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/profile")
-@SessionAttributes("user")
 public class ProfileController {
 
     @Autowired
@@ -31,6 +30,14 @@ public class ProfileController {
 
         userService.sendConfirmationMail(userDto);
         redirectAttributes.addFlashAttribute("message", "Письмо отправлено, проверьте почту");
+        return "redirect:/profile";
+    }
+
+    //TODO redirect by status
+    @PostMapping("/update")
+    public String updateProfile(Authentication authentication,
+                                @ModelAttribute("user") UserDto userDto) {
+        userService.updateUser(authentication.getName(), userDto);
         return "redirect:/profile";
     }
 

@@ -1,13 +1,17 @@
 package com.fakesibwork.database.service;
 
+import com.fakesibwork.database.exception.EmailIsPresentException;
 import dto.UserDto;
 import com.fakesibwork.database.exception.UserIsPresentException;
 import com.fakesibwork.database.model.User;
 import com.fakesibwork.database.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class UserService {
 
     @Autowired
@@ -21,19 +25,49 @@ public class UserService {
                 .password(user.getPassword())
                 .email(user.getEmail())
                 .role(user.getRole())
+                .verify_token(user.getVerify_token())
                 .build();
     }
 
     public void addUser(UserDto userDto) {
         if (userRepo.findByUsername(userDto.getUsername()).isEmpty()) {
-            var user = new User();
+            User user = new User();
             user.setUsername(userDto.getUsername());
             user.setPassword(userDto.getPassword());
             user.setEmail(userDto.getEmail());
             user.setRole(userDto.getRole());
+            user.setVerify_token(userDto.getVerify_token());
             userRepo.save(user);
         } else {
             throw new UserIsPresentException();
         }
     }
+
+
+    public HttpStatus confirmMail(String verifyToken) {
+        try {
+            userRepo.updateVerifyToken(verifyToken);
+            return HttpStatus.OK;
+        } catch (Exception e) {
+            return HttpStatus.BAD_REQUEST;
+        }
+    }
+
+    public HttpStatus updateUser(String username, UserDto userDto) {
+        User user = userRepo.findByUsername(username)
+                .orElseThrow(RuntimeException::new);
+
+        if (userRepo.findByEmail(userDto.getEmail()).isEmpty())
+            user.setEmail(userDto.getEmail());
+        else return HttpStatus.BAD_REQUEST;
+
+        if (userRepo.findByUsername(userDto.getUsername()).isEmpty())
+            user.setUsername(userDto.getUsername());
+        else return HttpStatus.BAD_REQUEST;
+
+        userRepo.save(user);
+
+        return HttpStatus.ACCEPTED;
+    }
+
 }

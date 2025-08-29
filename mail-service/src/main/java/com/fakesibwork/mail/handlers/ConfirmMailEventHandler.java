@@ -19,8 +19,8 @@ public class ConfirmMailEventHandler {
     public void handler(UserDto userDto) {
         Map<String, Object> map = new HashMap<>();
         map.put("username", userDto.getUsername());
-        map.put("link", "https://mikhailpoizon.ru/auth/confirm-mail");
-        mailService.sendMessageWithAttachment(userDto.getEmail(), "Подтверждение почты",
+        map.put("link", "https://mikhailpoizon.ru/auth/confirm-mail/" + userDto.getVerify_token());
+        mailService.sendMessageWithAttachment(userDto.getEmail(), "Подтвердите почту",
                 "confirm-mail", map);
     }
 }

@@ -8,15 +8,25 @@
 
     <h1>Ваш профиль:</h1>
 
-    <div th:each="user : ${user}">
-        <p th:text="${user.username}"> Username</p>
-        <p th:text="${user.password}"> Password</p>
+    <form th:action="@{/profile/update}" th:object="${user}" method="post">
+        <label>Username: </label>
+        <input type="text" th:field="*{username}" /> <br/>
+
+        <label>Email: </label>
+        <input type="email" th:field="*{email}" /> <br/>
+
         <p th:text="${user.role}"> Role</p>
-        <p th:text="${user.email}"> Email</p>
-    </div>
+
+        <button type="submit">Save</button>
+    </form>
+
+    <br/>
 
     <div th:if="${user.email != null}">
-        <form method="post" th:action="@{/profile/send-confirm-mail}">
+        <form method="post" th:action="@{/profile/send-confirm-mail}" th:object="${user}">
+            <input type="hidden" th:field="*{email}" />
+            <input type="hidden" th:field="*{username}" />
+            <input type="hidden" th:field="*{verify_token}" />
             <button type="submit">Подтвердить почту</button>
         </form>
     </div>

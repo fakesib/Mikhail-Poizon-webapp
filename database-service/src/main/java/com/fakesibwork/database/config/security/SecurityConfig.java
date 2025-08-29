@@ -30,7 +30,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationManager authenticationManager) throws Exception {
         return http
                 .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+                .cors( cors -> cors.disable())
+                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
                 .authenticationProvider(new JwtAuthenticationProvider())
                 .addFilterBefore(new JwtFilter(authenticationManager), UsernamePasswordAuthenticationFilter.class)
                 .build();
