@@ -24,6 +24,9 @@
 
     <div th:if="${user.email != null}">
         <form method="post" th:action="@{/profile/send-confirm-mail}" th:object="${user}">
+            <input type="hidden" th:field="*{email}" />
+            <input type="hidden" th:field="*{username}" />
+            <input type="hidden" th:field="*{verify_token}" />
             <button type="submit">Подтвердить почту</button>
         </form>
     </div>
