@@ -57,7 +57,8 @@ public class UserService {
 
         user.setEmail(userDto.getEmail());
 
-        if (userRepo.findByUsername(user.getUsername()).isEmpty())
+
+        if (userRepo.findByUsername(userDto.getUsername()).isEmpty())
             user.setUsername(userDto.getUsername());
         else throw new UserIsPresentException();
 
