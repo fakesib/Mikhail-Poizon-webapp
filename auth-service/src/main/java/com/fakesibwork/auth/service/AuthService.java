@@ -40,7 +40,7 @@ public class AuthService {
         try {
             var response = restTemplate.getForEntity(USER_SERVICE_URL + "confirm-mail/" + verifyToken, String.class);
         } catch (RestClientException exception) {
-            throw new ConfirmMailException();
+            throw new ConfirmMailException(exception.getMessage());
         }
     }
 }
