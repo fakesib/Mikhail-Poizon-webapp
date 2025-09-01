@@ -1,7 +1,7 @@
 package com.fakesibwork.profile.controller;
 
 import com.fakesibwork.profile.service.UserService;
-import dto.UserDto;
+import com.fakesibwork.common.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;

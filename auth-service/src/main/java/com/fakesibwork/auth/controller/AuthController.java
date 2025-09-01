@@ -1,6 +1,7 @@
 package com.fakesibwork.auth.controller;
 
 import com.fakesibwork.auth.service.AuthService;
+import com.fakesibwork.common.exceptions.UserIsPresentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,8 +33,8 @@ public class AuthController {
         try {
             authService.register(username, password);
             return ResponseEntity.ok("User registered");
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body("User cannot be registered");
+        } catch (UserIsPresentException e) {
+            return ResponseEntity.badRequest().body("User cannot be registered" + e);
         }
     }
 

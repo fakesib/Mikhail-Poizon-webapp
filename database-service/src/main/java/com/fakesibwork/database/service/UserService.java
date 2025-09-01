@@ -1,14 +1,15 @@
 package com.fakesibwork.database.service;
 
-import com.fakesibwork.database.exception.EmailIsPresentException;
-import dto.UserDto;
-import com.fakesibwork.database.exception.UserIsPresentException;
+import com.fakesibwork.common.dto.UserDto;
+import com.fakesibwork.common.exceptions.UserIsPresentException;
 import com.fakesibwork.database.model.User;
 import com.fakesibwork.database.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -29,14 +30,14 @@ public class UserService {
                 .build();
     }
 
-    public void addUser(UserDto userDto) throws UserIsPresentException{
+    public void addUser(UserDto userDto) throws UserIsPresentException {
         if (userRepo.findByUsername(userDto.getUsername()).isEmpty()) {
             User user = new User();
             user.setUsername(userDto.getUsername());
             user.setPassword(userDto.getPassword());
             user.setEmail(userDto.getEmail());
             user.setRole(userDto.getRole());
-            user.setVerify_token(userDto.getVerify_token());
+            user.setVerify_token(UUID.randomUUID().toString());
             userRepo.save(user);
         } else {
             throw new UserIsPresentException();

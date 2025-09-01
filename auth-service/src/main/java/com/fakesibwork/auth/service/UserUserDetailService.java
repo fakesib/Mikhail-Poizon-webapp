@@ -1,6 +1,6 @@
 package com.fakesibwork.auth.service;
 
-import dto.UserDto;
+import com.fakesibwork.common.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

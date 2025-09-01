@@ -1,4 +1,4 @@
-package com.fakesibwork.database.exception;
+package com.fakesibwork.common.exceptions;
 
 public class EmailIsPresentException extends RuntimeException {
     public EmailIsPresentException() {

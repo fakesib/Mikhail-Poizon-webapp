@@ -1,8 +1,9 @@
 package com.fakesibwork.database.controller;
 
-import com.fakesibwork.database.exception.UserIsPresentException;
+
+import com.fakesibwork.common.exceptions.UserIsPresentException;
 import com.fakesibwork.database.service.UserService;
-import dto.UserDto;
+import com.fakesibwork.common.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

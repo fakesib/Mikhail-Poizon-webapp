@@ -1,4 +1,4 @@
-package dto;
+package com.fakesibwork.common.dto;
 
 import lombok.*;
 
