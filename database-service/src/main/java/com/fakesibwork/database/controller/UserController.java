@@ -44,7 +44,7 @@ public class UserController {
         try {
             userService.confirmMail(token);
             return ResponseEntity.ok("Email is confirmed");
-        } catch (ConfirmMailException | InvalidVerifyTokenException exception) {
+        } catch (EmailIsAlreadyConfirmedException | InvalidVerifyTokenException exception) {
             return ResponseEntity.badRequest().body(exception.getMessage());
         }
     }

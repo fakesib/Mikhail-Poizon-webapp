@@ -50,18 +50,15 @@ public class UserService {
 
 
     public void confirmMail(String verifyToken)
-            throws EmailIsAlreadyConfirmedException, ConfirmMailException, InvalidVerifyTokenException {
+            throws EmailIsAlreadyConfirmedException, InvalidVerifyTokenException {
+
         if (verifyToken == null || verifyToken.isEmpty()) {
             throw new InvalidVerifyTokenException();
         }
 
-        try {
-            var updated = userRepo.updateVerifyToken(verifyToken);
-            if (updated == 0) {
-                throw new EmailIsAlreadyConfirmedException();
-            }
-        } catch (DataAccessException exception) {
-            throw new ConfirmMailException("Database error while confirming email" + exception);
+        var updated = userRepo.updateVerifyToken(verifyToken);
+        if (updated == 0) {
+            throw new EmailIsAlreadyConfirmedException();
         }
     }
 

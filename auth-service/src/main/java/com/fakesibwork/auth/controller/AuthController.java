@@ -39,7 +39,7 @@ public class AuthController {
                     .location(URI.create("/auth/login?registrated=true"))
                     .build();
         } catch (RegistrationException exception) {
-            return ResponseEntity.badRequest().body("User cannot be registered" + exception.getMessage());
+            return ResponseEntity.badRequest().body("User cannot be registered \n" + exception.getMessage());
         }
     }
 
