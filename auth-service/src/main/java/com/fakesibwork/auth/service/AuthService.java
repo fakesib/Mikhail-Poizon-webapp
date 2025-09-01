@@ -32,7 +32,7 @@ public class AuthService {
                     .role(Role.USER)
                     .build(), String.class); //TODO ApiResponse
         } catch (RestClientException exception) {
-            throw new RegistrationException(exception.toString());
+            throw new RegistrationException(exception.getMessage());
         }
     }
 

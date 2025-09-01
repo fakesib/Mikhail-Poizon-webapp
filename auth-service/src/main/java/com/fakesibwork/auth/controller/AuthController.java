@@ -39,7 +39,7 @@ public class AuthController {
                     .location(URI.create("/auth/login?registrated=true"))
                     .build();
         } catch (RegistrationException exception) {
-            return ResponseEntity.badRequest().body("User cannot be registered" + exception);
+            return ResponseEntity.badRequest().body("User cannot be registered" + exception.getMessage());
         }
     }
 
@@ -49,7 +49,7 @@ public class AuthController {
             authService.confirmMail(verify_token);
             return ResponseEntity.ok("Email is confirmed");
         } catch (ConfirmMailException exception) {
-            return ResponseEntity.badRequest().body(exception);
+            return ResponseEntity.badRequest().body(exception.getMessage());
         }
     }
 
