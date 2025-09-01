@@ -2,6 +2,8 @@ package com.fakesibwork.auth.service;
 
 import com.fakesibwork.common.dto.Role;
 import com.fakesibwork.common.dto.UserDto;
+import com.fakesibwork.common.exceptions.ConfirmMailException;
+import com.fakesibwork.common.exceptions.RegistrationException;
 import com.fakesibwork.common.exceptions.UserIsPresentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +23,7 @@ public class AuthService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public void register(String username, String password) throws UserIsPresentException {
+    public void register(String username, String password) throws RegistrationException {
         try {
             restTemplate.postForEntity(USER_SERVICE_URL + username, UserDto.builder()
                     .username(username)
@@ -29,13 +31,16 @@ public class AuthService {
                     .email(null)
                     .role(Role.USER)
                     .build(), String.class); //TODO ApiResponse
-        } catch (RestClientException e) {
-            throw new UserIsPresentException();
+        } catch (RestClientException exception) {
+            throw new RegistrationException(exception.toString());
         }
     }
 
-    public HttpStatus confirmMail(String verifyToken) {
-        var response = restTemplate.getForEntity(USER_SERVICE_URL + "confirm-mail/" + verifyToken, HttpStatus.class);
-        return response.getBody();
+    public void confirmMail(String verifyToken) throws ConfirmMailException {
+        try {
+            var response = restTemplate.getForEntity(USER_SERVICE_URL + "confirm-mail/" + verifyToken, String.class);
+        } catch (RestClientException exception) {
+            throw new ConfirmMailException();
+        }
     }
 }

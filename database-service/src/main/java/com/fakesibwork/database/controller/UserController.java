@@ -1,7 +1,7 @@
 package com.fakesibwork.database.controller;
 
 
-import com.fakesibwork.common.exceptions.UserIsPresentException;
+import com.fakesibwork.common.exceptions.*;
 import com.fakesibwork.database.service.UserService;
 import com.fakesibwork.common.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +21,13 @@ public class UserController {
     }
 
     @PostMapping("/{username}")
-    public ResponseEntity<?> addUser(@RequestBody UserDto userDto) {
+    public ResponseEntity<?> addUser(@PathVariable String username,
+                                    @RequestBody UserDto userDto) {
         try {
-            userService.addUser(userDto);
+            userService.addUser(username, userDto);
             return ResponseEntity.ok("User added");
-        } catch (UserIsPresentException e) {
-            return ResponseEntity.status(400).body("User is already presents");
+        } catch (UserIsPresentException | IncorrectRegistrationPathException exception) {
+            return ResponseEntity.status(400).body(exception);
         }
     }
 
@@ -40,9 +41,12 @@ public class UserController {
 
     @GetMapping("confirm-mail/{token}")
     public ResponseEntity<?> confirmMailByVerifyToken(@PathVariable String token) {
-
-        var status = userService.confirmMail(token);
-        return ResponseEntity.status(status).build();
+        try {
+            userService.confirmMail(token);
+            return ResponseEntity.ok("Email is confirmed");
+        } catch (ConfirmMailException | InvalidVerifyTokenException exception) {
+            return ResponseEntity.badRequest().body(exception);
+        }
     }
 
 }
