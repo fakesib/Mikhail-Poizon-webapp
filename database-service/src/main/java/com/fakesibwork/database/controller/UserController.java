@@ -27,7 +27,7 @@ public class UserController {
             userService.addUser(username, userDto);
             return ResponseEntity.ok("User added");
         } catch (UserIsPresentException | IncorrectRegistrationPathException exception) {
-            return ResponseEntity.status(400).body(exception);
+            return ResponseEntity.badRequest().body(exception.getMessage());
         }
     }
 
@@ -45,7 +45,7 @@ public class UserController {
             userService.confirmMail(token);
             return ResponseEntity.ok("Email is confirmed");
         } catch (ConfirmMailException | InvalidVerifyTokenException exception) {
-            return ResponseEntity.badRequest().body(exception);
+            return ResponseEntity.badRequest().body(exception.getMessage());
         }
     }
 
