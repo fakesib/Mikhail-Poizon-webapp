@@ -1,9 +1,11 @@
 package com.fakesibwork.profile.service;
 
 import com.fakesibwork.common.dto.UserDto;
+import com.fakesibwork.common.exceptions.ProfileUpdateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 @Service
@@ -26,7 +28,11 @@ public class UserService {
         kafkaTemplate.send("confirm-mail-event-topic", userDto.getUsername(), userDto);
     }
 
-    public void updateUser(String username, UserDto userDto) {
-        restTemplate.put(USER_SERVICE_URL + username, userDto);
+    public void updateUser(String username, UserDto userDto) throws ProfileUpdateException {
+        try {
+            restTemplate.patchForObject(USER_SERVICE_URL + username, userDto, String.class);
+        } catch (RestClientException exception) {
+            throw new ProfileUpdateException(exception.getMessage());
+        }
     }
 }

@@ -26,21 +26,25 @@ public class UserController {
         try {
             userService.addUser(username, userDto);
             return ResponseEntity.ok("User added");
-        } catch (UserIsPresentException | IncorrectRegistrationPathException exception) {
+        } catch (UserIsPresentException | IncorrectUsernameException exception) {
             return ResponseEntity.badRequest().body(exception.getMessage());
         }
     }
 
-    @PutMapping("/{username}")
+    @PatchMapping("/{username}")
     public ResponseEntity<?> updateUser(@PathVariable String username,
                                         @RequestBody UserDto userDto) {
 
-        var status = userService.updateUser(username, userDto);
-        return ResponseEntity.status(status).build();
+        try {
+            userService.updateUser(username, userDto);
+            return ResponseEntity.ok("User updated");
+        } catch (RuntimeException exception) {
+            return ResponseEntity.badRequest().body(exception.getMessage());
+        }
     }
 
-    @GetMapping("confirm-mail/{token}")
-    public ResponseEntity<?> confirmMailByVerifyToken(@PathVariable String token) {
+    @GetMapping({"confirm-mail", "confirm-mail/{token}"})
+    public ResponseEntity<?> confirmMailByVerifyToken(@PathVariable(required = false) String token) {
         try {
             userService.confirmMail(token);
             return ResponseEntity.ok("Email is confirmed");

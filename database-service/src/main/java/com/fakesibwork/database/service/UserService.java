@@ -5,8 +5,6 @@ import com.fakesibwork.common.exceptions.*;
 import com.fakesibwork.database.model.User;
 import com.fakesibwork.database.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,11 +30,11 @@ public class UserService {
     }
 
     public void addUser(String username, UserDto userDto)
-            throws UserIsPresentException, IncorrectRegistrationPathException {
+            throws UserIsPresentException, IncorrectUsernameException {
         if (userRepo.findByUsername(userDto.getUsername()).isPresent()) {
             throw new UserIsPresentException();
         } else if (!username.equals(userDto.getUsername())) {
-            throw new IncorrectRegistrationPathException(username);
+            throw new IncorrectUsernameException(username);
         } else {
             User user = new User();
             user.setUsername(userDto.getUsername());
@@ -47,7 +45,6 @@ public class UserService {
             userRepo.save(user);
         }
     }
-
 
     public void confirmMail(String verifyToken)
             throws EmailIsAlreadyConfirmedException, InvalidVerifyTokenException {
@@ -62,22 +59,19 @@ public class UserService {
         }
     }
 
-    //TODO rewrite method
-    public HttpStatus updateUser(String username, UserDto userDto) {
+    public void updateUser(String username, UserDto userDto)
+            throws EmailIsPresentException, UsernameIsPresentException, UserNotFoundException {
+
         User user = userRepo.findByUsername(username)
-                .orElseThrow(RuntimeException::new);
-
-        if (userRepo.findByEmail(userDto.getEmail()).isEmpty())
-            user.setEmail(userDto.getEmail());
-        else return HttpStatus.BAD_REQUEST;
-
-        if (userRepo.findByUsername(userDto.getUsername()).isEmpty())
+                .orElseThrow(UserNotFoundException::new);
+        if (userRepo.findByUsername(userDto.getUsername()).isPresent()) {
+            throw new UsernameIsPresentException(userDto.getUsername());
+        } else if (userRepo.findByEmail(userDto.getEmail()).isPresent()) {
+            throw new EmailIsPresentException(userDto.getEmail());
+        } else {
             user.setUsername(userDto.getUsername());
-        else return HttpStatus.BAD_REQUEST;
-
-        userRepo.save(user);
-
-        return HttpStatus.ACCEPTED;
+            user.setEmail(userDto.getEmail());
+            userRepo.save(user);
+        }
     }
-
 }
