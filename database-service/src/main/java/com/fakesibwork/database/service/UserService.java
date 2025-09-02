@@ -64,9 +64,11 @@ public class UserService {
 
         User user = userRepo.findByUsername(username)
                 .orElseThrow(UserNotFoundException::new);
-        if (userRepo.findByUsername(userDto.getUsername()).isPresent()) {
+        if (userRepo.findByUsername(userDto.getUsername()).isPresent()
+                && !user.getUsername().equals(userDto.getUsername())) {
             throw new UsernameIsPresentException(userDto.getUsername());
-        } else if (userRepo.findByEmail(userDto.getEmail()).isPresent()) {
+        } else if (userRepo.findByEmail(userDto.getEmail()).isPresent()
+                && !user.getEmail().equals(userDto.getEmail())) {
             throw new EmailIsPresentException(userDto.getEmail());
         } else {
             user.setUsername(userDto.getUsername());
