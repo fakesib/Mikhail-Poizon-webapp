@@ -3,6 +3,8 @@ package com.fakesibwork.profile.service;
 import com.fakesibwork.common.dto.UserDto;
 import com.fakesibwork.common.exceptions.ProfileUpdateException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
@@ -30,7 +32,11 @@ public class UserService {
 
     public void updateUser(String username, UserDto userDto) throws ProfileUpdateException {
         try {
-            restTemplate.patchForObject(USER_SERVICE_URL + username, userDto, String.class);
+            restTemplate.exchange(
+                    USER_SERVICE_URL + username,
+                    HttpMethod.PATCH,
+                    new HttpEntity<>(userDto),
+                    String.class);
         } catch (RestClientException exception) {
             throw new ProfileUpdateException(exception.getMessage());
         }
