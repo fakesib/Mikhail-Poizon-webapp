@@ -1,6 +1,6 @@
 package com.fakesibwork.database.model;
 
-import dto.Role;
+import com.fakesibwork.common.dto.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

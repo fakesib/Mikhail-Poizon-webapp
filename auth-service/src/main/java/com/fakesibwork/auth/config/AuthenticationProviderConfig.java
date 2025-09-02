@@ -1,6 +1,6 @@
 package com.fakesibwork.auth.config;
 
-import dto.UserDto;
+import com.fakesibwork.common.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;

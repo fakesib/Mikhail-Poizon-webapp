@@ -1,14 +1,14 @@
 package com.fakesibwork.database.service;
 
-import com.fakesibwork.database.exception.EmailIsPresentException;
-import dto.UserDto;
-import com.fakesibwork.database.exception.UserIsPresentException;
+import com.fakesibwork.common.dto.UserDto;
+import com.fakesibwork.common.exceptions.*;
 import com.fakesibwork.database.model.User;
 import com.fakesibwork.database.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -29,45 +29,51 @@ public class UserService {
                 .build();
     }
 
-    public void addUser(UserDto userDto) {
-        if (userRepo.findByUsername(userDto.getUsername()).isEmpty()) {
+    public void addUser(String username, UserDto userDto)
+            throws UserIsPresentException, IncorrectUsernameException {
+        if (userRepo.findByUsername(userDto.getUsername()).isPresent()) {
+            throw new UserIsPresentException();
+        } else if (!username.equals(userDto.getUsername())) {
+            throw new IncorrectUsernameException(username);
+        } else {
             User user = new User();
             user.setUsername(userDto.getUsername());
             user.setPassword(userDto.getPassword());
             user.setEmail(userDto.getEmail());
             user.setRole(userDto.getRole());
-            user.setVerify_token(userDto.getVerify_token());
+            user.setVerify_token(UUID.randomUUID().toString());
             userRepo.save(user);
-        } else {
-            throw new UserIsPresentException();
         }
     }
 
+    public void confirmMail(String verifyToken)
+            throws EmailIsAlreadyConfirmedException, InvalidVerifyTokenException {
 
-    public HttpStatus confirmMail(String verifyToken) {
-        try {
-            userRepo.updateVerifyToken(verifyToken);
-            return HttpStatus.OK;
-        } catch (Exception e) {
-            return HttpStatus.BAD_REQUEST;
+        if (verifyToken == null || verifyToken.isEmpty()) {
+            throw new InvalidVerifyTokenException();
+        }
+
+        var updated = userRepo.updateVerifyToken(verifyToken);
+        if (updated == 0) {
+            throw new EmailIsAlreadyConfirmedException();
         }
     }
 
-    public HttpStatus updateUser(String username, UserDto userDto) {
+    public void updateUser(String username, UserDto userDto)
+            throws EmailIsPresentException, UsernameIsPresentException, UserNotFoundException {
+
         User user = userRepo.findByUsername(username)
-                .orElseThrow(RuntimeException::new);
-
-        if (userRepo.findByEmail(userDto.getEmail()).isEmpty())
-            user.setEmail(userDto.getEmail());
-        else return HttpStatus.BAD_REQUEST;
-
-        if (userRepo.findByUsername(userDto.getUsername()).isEmpty())
+                .orElseThrow(UserNotFoundException::new);
+        if (userRepo.findByUsername(userDto.getUsername()).isPresent()
+                && !user.getUsername().equals(userDto.getUsername())) {
+            throw new UsernameIsPresentException(userDto.getUsername());
+        } else if (userRepo.findByEmail(userDto.getEmail()).isPresent()
+                && !user.getEmail().equals(userDto.getEmail())) {
+            throw new EmailIsPresentException(userDto.getEmail());
+        } else {
             user.setUsername(userDto.getUsername());
-        else return HttpStatus.BAD_REQUEST;
-
-        userRepo.save(user);
-
-        return HttpStatus.ACCEPTED;
+            user.setEmail(userDto.getEmail());
+            userRepo.save(user);
+        }
     }
-
 }

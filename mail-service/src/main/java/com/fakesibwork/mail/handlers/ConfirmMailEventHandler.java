@@ -1,7 +1,7 @@
 package com.fakesibwork.mail.handlers;
 
 import com.fakesibwork.mail.service.MailService;
-import dto.UserDto;
+import com.fakesibwork.common.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;

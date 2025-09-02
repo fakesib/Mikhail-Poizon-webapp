@@ -1,15 +1,16 @@
 package com.fakesibwork.auth.service;
 
-import dto.Role;
-import dto.UserDto;
+import com.fakesibwork.common.dto.Role;
+import com.fakesibwork.common.dto.UserDto;
+import com.fakesibwork.common.exceptions.ConfirmMailException;
+import com.fakesibwork.common.exceptions.RegistrationException;
+import com.fakesibwork.common.exceptions.UserIsPresentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-
-import java.net.http.HttpResponse;
 
 @Service
 public class AuthService {
@@ -22,17 +23,24 @@ public class AuthService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public void register(String username, String password) {
-        restTemplate.postForEntity(USER_SERVICE_URL + username, UserDto.builder()
-                        .username(username)
-                        .password(passwordEncoder.encode(password))
-                        .email(null)
-                        .role(Role.USER)
-                .build(), UserDto.class);
+    public void register(String username, String password) throws RegistrationException {
+        try {
+            restTemplate.postForEntity(USER_SERVICE_URL + username, UserDto.builder()
+                    .username(username)
+                    .password(passwordEncoder.encode(password))
+                    .email(null)
+                    .role(Role.USER)
+                    .build(), String.class); //TODO ApiResponse
+        } catch (RestClientException exception) {
+            throw new RegistrationException(exception.getMessage());
+        }
     }
 
-    public HttpStatus confirmMail(String verifyToken) {
-        var response = restTemplate.getForEntity(USER_SERVICE_URL + "confirm-mail/" + verifyToken, HttpStatus.class);
-        return response.getBody();
+    public void confirmMail(String verifyToken) throws ConfirmMailException {
+        try {
+            restTemplate.getForEntity(USER_SERVICE_URL + "confirm-mail/" + verifyToken, String.class);
+        } catch (RestClientException exception) {
+            throw new ConfirmMailException(exception.getMessage());
+        }
     }
 }

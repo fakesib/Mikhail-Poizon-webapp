@@ -1,9 +1,10 @@
 package com.fakesibwork.database.controller;
 
+
+import com.fakesibwork.common.exceptions.*;
 import com.fakesibwork.database.service.UserService;
-import dto.UserDto;
+import com.fakesibwork.common.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,23 +21,36 @@ public class UserController {
     }
 
     @PostMapping("/{username}")
-    public void addUser(@RequestBody UserDto userDto) {
-        userService.addUser(userDto);
+    public ResponseEntity<?> addUser(@PathVariable String username,
+                                    @RequestBody UserDto userDto) {
+        try {
+            userService.addUser(username, userDto);
+            return ResponseEntity.ok("User added");
+        } catch (UserIsPresentException | IncorrectUsernameException exception) {
+            return ResponseEntity.badRequest().body(exception.getMessage());
+        }
     }
 
-    @PutMapping("/{username}")
-    public ResponseEntity<String> updateUser(@PathVariable String username,
-                                             @RequestBody UserDto userDto) {
+    @PostMapping("/update/{username}")
+    public ResponseEntity<?> updateUser(@PathVariable String username,
+                                        @RequestBody UserDto userDto) {
 
-        var status = userService.updateUser(username, userDto);
-        return new ResponseEntity<>(status);
+        try {
+            userService.updateUser(username, userDto);
+            return ResponseEntity.ok("User updated");
+        } catch (RuntimeException exception) {
+            return ResponseEntity.badRequest().body(exception.getMessage());
+        }
     }
 
-    @GetMapping("confirm-mail/{token}")
-    public ResponseEntity<String> confirmMailByVerifyToken(@PathVariable String token) {
-
-        var status = userService.confirmMail(token);
-        return ResponseEntity.status(status).build();
+    @GetMapping({"confirm-mail", "confirm-mail/{token}"})
+    public ResponseEntity<?> confirmMailByVerifyToken(@PathVariable(required = false) String token) {
+        try {
+            userService.confirmMail(token);
+            return ResponseEntity.ok("Email is confirmed");
+        } catch (EmailIsAlreadyConfirmedException | InvalidVerifyTokenException exception) {
+            return ResponseEntity.badRequest().body(exception.getMessage());
+        }
     }
 
 }
