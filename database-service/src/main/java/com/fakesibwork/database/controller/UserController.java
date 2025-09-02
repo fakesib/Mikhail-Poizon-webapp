@@ -31,7 +31,7 @@ public class UserController {
         }
     }
 
-    @PatchMapping("/{username}")
+    @PostMapping("/update/{username}")
     public ResponseEntity<?> updateUser(@PathVariable String username,
                                         @RequestBody UserDto userDto) {
 

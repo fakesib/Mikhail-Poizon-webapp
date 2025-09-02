@@ -33,8 +33,8 @@ public class UserService {
     public void updateUser(String username, UserDto userDto) throws ProfileUpdateException {
         try {
             restTemplate.exchange(
-                    USER_SERVICE_URL + username,
-                    HttpMethod.PATCH,
+                    USER_SERVICE_URL + "update/" + username,
+                    HttpMethod.POST,
                     new HttpEntity<>(userDto),
                     String.class);
         } catch (RestClientException exception) {
