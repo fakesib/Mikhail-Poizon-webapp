@@ -56,6 +56,11 @@ jobs:
         run: |
           docker build -f mail-service/Dockerfile -t ${{ env.REGISTRY }}/${{ secrets.GH_USERNAME }}/mail-service mail-service/
           docker push ${{ env.REGISTRY }}/${{ secrets.GH_USERNAME }}/mail-service
+
+      - name: Build service-discovery image
+        run: |
+          docker build -f service-discovery/Dockerfile -t ${{ env.REGISTRY }}/${{ secrets.GH_USERNAME }}/service-discovery service-discovery/
+          docker push ${{ env.REGISTRY }}/${{ secrets.GH_USERNAME }}/service-discovery
   
   # 2 start application
   start:

@@ -7,8 +7,7 @@ services:
     depends_on:
       - gateway-service
       - redis
-    expose:
-      - "8081"
+      - service-discovery
     networks:
       - app-network
 
@@ -22,8 +21,7 @@ services:
       - gateway-service
       - redis
       - kafka
-    expose:
-      - "8085"
+      - service-discovery
     networks:
       - app-network
 
@@ -40,16 +38,15 @@ services:
     depends_on:
       postgres-service:
         condition: service_healthy
-    expose:
-      - "8083"
+      service-discovery:
     networks:
       - app-network
 
   gateway-service:
     image: ghcr.io/fakesib/gateway-service
     container_name: gateway-service
-    expose:
-      - "8080"
+    depends_on:
+      - service_discovery
     networks:
       - app-network
 
@@ -62,8 +59,7 @@ services:
       - gateway-service
       - redis
       - kafka
-    expose:
-      - "8082"
+      - service-discovery
     networks:
       - app-network
 
@@ -75,8 +71,15 @@ services:
     depends_on:
       - gateway-service
       - redis
-    expose:
-      - "8084"
+      - service-discovery
+    networks:
+      - app-network
+
+  service-discovery:
+    image: ghcr.io/fakesib/service-discovery
+    container_name: service-discovery
+    ports:
+      - "8671:8761"
     networks:
       - app-network
 

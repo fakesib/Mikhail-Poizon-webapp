@@ -9,24 +9,29 @@ spring:
     gateway:
       routes:
         - id: root-to-feed
-          uri: http://feed-service:8084
+          uri: lb://feed-service
           predicates:
             - Path=/
           filters:
             - RedirectTo=302, /feed
         - id: profile-service
-          uri: http://profile-service:8082
+          uri: lb://profile-service
           predicates:
             - Path=/profile/**
         - id: auth-service
-          uri: http://auth-service:8081
+          uri: lb://auth-service
           predicates:
-            - Path=/auth/**
+            - Path=/auth/**x
         - id: database-service
-          uri: http://database-service:8083
+          uri: lb://database-service
           predicates:
             - Path=/api/**
         - id: feed-service
-          uri: http://feed-service:8084
+          uri: lb://feed-service
           predicates:
             - Path=/feed/**
+
+  eureka:
+    client:
+      service-url:
+        defaultZone: http://service-discovery:8761/eureka/

@@ -1,5 +1,5 @@
 server:
-  port: 8084
+  port: 0
   forward-headers-strategy: framework
   servlet:
     session:
@@ -17,6 +17,10 @@ spring:
   redis:
     host: redis
     port: 6379
+  eureka:
+    client:
+      service-url:
+        defaultZone: http://service-discovery:8761/eureka/
 
 logging:
   level:
