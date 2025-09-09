@@ -48,7 +48,7 @@ services:
     container_name: gateway-service
     depends_on:
       service-discovery:
-        condition: service_healthy
+        condition: service_started
     networks:
       - app-network
 
@@ -84,11 +84,6 @@ services:
       - "8671:8761"
     networks:
       - app-network
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8761/eureka/apps" ]
-      interval: 5s
-      retries: 12
-      start_period: 100s
 
   postgres-service:
     image: postgres:16.0
