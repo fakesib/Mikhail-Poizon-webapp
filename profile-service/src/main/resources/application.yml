@@ -23,10 +23,11 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       retries: 3
-  eureka:
-    client:
-      service-url:
-        defaultZone: http://service-discovery:8761/eureka/
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://service-discovery:8761/eureka/
 
 logging:
   level:
