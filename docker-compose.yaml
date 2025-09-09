@@ -88,6 +88,7 @@ services:
       test: [ "CMD", "curl", "-f", "http://localhost:8761/eureka/apps" ]
       interval: 5s
       retries: 12
+      start_period: 100s
 
   postgres-service:
     image: postgres:16.0
