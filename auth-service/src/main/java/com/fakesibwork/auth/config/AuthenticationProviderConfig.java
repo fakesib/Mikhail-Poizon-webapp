@@ -18,7 +18,7 @@ import java.util.List;
 @Component
 public class AuthenticationProviderConfig implements AuthenticationProvider {
 
-    private static final String USER_SERVICE_URL = "http://database-service:8083/api/user/";
+    private static final String USER_SERVICE_URL = "http://database-service/api/user/";
 
     @Autowired
     private RestTemplate restTemplate;

@@ -1,5 +1,5 @@
 server:
-  port: 8085
+  port: 0
 
 spring:
   application:
@@ -26,3 +26,7 @@ spring:
             enable: true
             required: true
           auth: true
+  eureka:
+    client:
+      service-url:
+        defaultZone: http://service-discovery:8761/eureka/

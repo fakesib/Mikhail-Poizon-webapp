@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class UserService {
 
-    private static final String USER_SERVICE_URL = "http://database-service:8083/api/user/";
+    private static final String USER_SERVICE_URL = "http://database-service/api/user/";
 
     @Autowired
     private RestTemplate restTemplate;
