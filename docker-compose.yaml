@@ -47,7 +47,8 @@ services:
     image: ghcr.io/fakesib/gateway-service
     container_name: gateway-service
     depends_on:
-      - service-discovery
+      service-discovery:
+        condition: service_healthy
     networks:
       - app-network
 
@@ -83,6 +84,10 @@ services:
       - "8671:8761"
     networks:
       - app-network
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8761/eureka/apps" ]
+      interval: 5s
+      retries: 12
 
   postgres-service:
     image: postgres:16.0
