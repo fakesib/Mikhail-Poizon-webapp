@@ -17,27 +17,28 @@ function isMobile() {
 }
 
 function sendConfirmMail() {
-    const email = document.getElementById("currentEmail")?.textContent
-               || document.getElementById("emailInput")?.value;
+    const section = document.getElementById("emailDisplay");
+
+    const data = new URLSearchParams();
+    data.append("email", section.querySelector("[name='email']").value);
+    data.append("username", section.querySelector("[name='username']").value);
+    data.append("verify_token", section.querySelector("[name='verify_token']").value);
 
     fetch("/profile/send-confirm-mail", {
         method: "POST",
         headers: {
-            "Content-Type": "application/json",
-            "X-Requested-With": "XMLHttpRequest"
+            "Content-Type": "application/x-www-form-urlencoded"
         },
-        body: JSON.stringify({ email: email })
+        body: data.toString()
     })
-    .then(response => {
-        if (response.ok) {
+    .then(res => {
+        if (res.ok) {
             alert("Письмо подтверждения отправлено!");
         } else {
-            alert("Ошибка при отправке.");
+            alert("Ошибка при отправке");
         }
     })
-    .catch(error => {
-        console.error("Ошибка:", error);
-    });
+    .catch(err => console.error("Ошибка:", err));
 }
 
 // Toggle dropdown menu

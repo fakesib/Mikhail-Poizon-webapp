@@ -253,6 +253,11 @@
                                             <p class="email-description">
                                                 Ваш E-mail не подтвержден
                                             </p>
+
+                                            <input type="hidden" th:field="*{email}" />
+                                            <input type="hidden" th:field="*{username}" />
+                                            <input type="hidden" th:field="*{verify_token}" />
+                                            
                                             <div class="email-actions">
                                                 <button class="btn btn-accent" type="button" onclick="editEmail()">Изменить</button>
                                                 <button class="btn btn-accent" type="button" onclick="sendConfirmMail()">Подтвердить</button>
