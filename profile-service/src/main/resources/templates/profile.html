@@ -241,7 +241,6 @@
                             <!-- Неподтвержденный email -->
                             <div th:if="${user.verify_token != null}">
                                     <div id="emailSection">
-                                        <form method="post" th:action="@{/profile/send-confirm-mail}" th:object="${user}">
                                         <div id="emailDisplay">
                                             <div class="email-row">
                                                 <span id="currentEmail" th:text="${user.email}"></span>
@@ -256,10 +255,9 @@
                                             </p>
                                             <div class="email-actions">
                                                 <button class="btn btn-accent" type="button" onclick="editEmail()">Изменить</button>
-                                                <button class="btn btn-accent" type="submit">Подтвердить</button>
+                                                <button class="btn btn-accent" type="button" onclick="sendConfirmMail()">Подтвердить</button>
                                             </div>
                                         </div>
-                                        </form>
                                         <div id="emailEdit" style="display: none;">
                                             <div class="email-row">
                                                 <input type="email" id="emailInput" class="form-input email-edit-input" th:field="*{email}">

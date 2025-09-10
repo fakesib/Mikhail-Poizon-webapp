@@ -16,6 +16,30 @@ function isMobile() {
     return window.innerWidth < 640;
 }
 
+function sendConfirmMail() {
+    const email = document.getElementById("currentEmail")?.textContent
+               || document.getElementById("emailInput")?.value;
+
+    fetch("/profile/send-confirm-mail", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest"
+        },
+        body: JSON.stringify({ email: email })
+    })
+    .then(response => {
+        if (response.ok) {
+            alert("Письмо подтверждения отправлено!");
+        } else {
+            alert("Ошибка при отправке.");
+        }
+    })
+    .catch(error => {
+        console.error("Ошибка:", error);
+    });
+}
+
 // Toggle dropdown menu
 function toggleDropdown() {
     const isOpen = dropdownContent.classList.contains('show');
