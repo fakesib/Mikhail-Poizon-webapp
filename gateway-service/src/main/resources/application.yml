@@ -30,6 +30,10 @@ spring:
           uri: lb://feed-service
           predicates:
             - Path=/feed/**
+        - id: service-discovery
+          uri: lb://service-discovery
+          predicates:
+            - Path=/eureka/
 
 eureka:
   client:
