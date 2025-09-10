@@ -230,7 +230,7 @@
                             <!-- Подтвержденный email -->
                             <div th:if="${user.verify_token == null}">
                                 <div class="email-row" style="margin-bottom: 1.5rem;">
-                                    <span th:field="*{email}"></span>
+                                    <span th:text="${user.email}"></span>
                                     <svg class="status-icon status-verified" viewBox="0 0 24 24">
                                         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
                                         <polyline points="22,4 12,14.01 9,11.01"/>
@@ -244,7 +244,7 @@
                                     <div id="emailSection">
                                         <div id="emailDisplay">
                                             <div class="email-row">
-                                                <span id="currentEmail" th:field="*{email}"></span>
+                                                <span id="currentEmail" th:text="${user.email}"></span>
                                                 <svg class="status-icon status-unverified" viewBox="0 0 24 24">
                                                     <circle cx="12" cy="12" r="10"/>
                                                     <path d="m15 9-6 6M9 9l6 6"/>
@@ -262,7 +262,7 @@
 
                                         <div id="emailEdit" style="display: none;">
                                             <div class="email-row">
-                                                <input type="email" id="emailInput" class="form-input email-edit-input">
+                                                <input type="email" id="emailInput" class="form-input email-edit-input" th:field="*{email}">
                                                 <svg class="status-icon status-unverified" viewBox="0 0 24 24">
                                                     <circle cx="12" cy="12" r="10"/>
                                                     <path d="m15 9-6 6M9 9l6 6"/>
