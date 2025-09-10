@@ -228,7 +228,7 @@
                         </div>
                         <div class="card-content">
                             <!-- Подтвержденный email -->
-                            <div th:if="${user.verify_code == null}">
+                            <div th:if="${user.verify_token == null}">
                                 <div class="email-row" style="margin-bottom: 1.5rem;">
                                     <span th:field="*{email}"></span>
                                     <svg class="status-icon status-verified" viewBox="0 0 24 24">
@@ -239,7 +239,7 @@
                             </div>
 
                             <!-- Неподтвержденный email -->
-                            <div th:if="${user.verify_code != null}">
+                            <div th:if="${user.verify_token != null}">
                                 <form method="post" th:action="@{/profile/send-confirm-mail}" th:object="${user}">
                                     <div id="emailSection">
                                         <div id="emailDisplay">
