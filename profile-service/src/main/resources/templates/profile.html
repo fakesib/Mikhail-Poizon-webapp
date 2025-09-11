@@ -254,6 +254,8 @@
                                 </div>
                             </div>
 
+                            <input type="hidden" th:field="*{verify_token}" />
+
                             <!-- Неподтвержденный email -->
                             <div th:if="${user.verify_token != null}">
                                     <div id="emailSection">
@@ -269,8 +271,6 @@
                                             <p class="email-description">
                                                 Ваш E-mail не подтвержден
                                             </p>
-                                            
-                                            <input type="hidden" th:field="*{verify_token}" />
 
                                             <div class="email-actions">
                                                 <button class="btn btn-accent" type="button" onclick="editEmail()">Изменить</button>
@@ -289,7 +289,7 @@
                                                 Ваш E-mail не подтвержден
                                             </p>
                                             <div class="email-actions">
-                                                <button class="btn btn-accent" type="submit">Подтвердить</button>
+                                                <button class="btn btn-accent" type="button" onclick="confirmEmailEdit()">Подтвердить</button>
                                                 <button class="btn btn-ghost" onclick="cancelEmailEdit()">Отмена</button>
                                             </div>
                                         </div>

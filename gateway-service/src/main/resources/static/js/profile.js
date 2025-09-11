@@ -41,6 +41,31 @@ function sendConfirmMail() {
     .catch(err => console.error("Ошибка:", err));
 }
 
+function confirmEmailEdit() {
+    const section = document.getElementById("emailEdit");
+
+    const data = new URLSearchParams();
+        data.append("email", section.querySelector("[name='email']").value);
+        data.append("username", section.querySelector("[name='username']").value);
+        data.append("verify_token", section.querySelector("[name='verify_token']").value);
+
+        fetch("/profile/update", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: data.toString()
+        })
+        .then(res => {
+            if (res.ok) {
+                alert("Письмо подтверждения отправлено!");
+            } else {
+                alert("Ошибка при отправке");
+            }
+        })
+        .catch(err => console.error("Ошибка:", err));
+}
+
 // Toggle dropdown menu
 function toggleDropdown() {
     const isOpen = dropdownContent.classList.contains('show');
@@ -57,23 +82,6 @@ function toggleDropdown() {
 function closeDropdown() {
     dropdownContent.classList.remove('show');
     overlay.classList.remove('show');
-}
-
-// Search functionality
-function handleSearch() {
-    const query = searchInput.value.toLowerCase().trim();
-    
-    if (query === '') {
-        currentFeedItems = [...feedItems];
-    } else {
-        currentFeedItems = feedItems.filter(item => 
-            item.title.toLowerCase().includes(query) ||
-            item.description.toLowerCase().includes(query) ||
-            item.author.toLowerCase().includes(query)
-        );
-    }
-    
-    renderContent();
 }
 
 // Show/hide mobile auth buttons in dropdown
@@ -206,23 +214,7 @@ function isValidEmail(email) {
 
 // Navigation Functions
 function goHome() {
-    alert('Переход на главную страницу');
-    // window.location.href = '/';
-}
-
-function saveProfile() {
-    const formData = {
-        username: document.getElementById('username').value,
-        tgUsername: document.getElementById('tgUsername').value,
-        birthDate: document.getElementById('birthDate').value,
-        city: document.getElementById('city').value,
-        street: document.getElementById('street').value,
-        house: document.getElementById('house').value,
-        email: document.getElementById('currentEmail').textContent
-    };
-
-    console.log('Saving profile:', formData);
-    alert('Профиль успешно сохранен!');
+    window.location.reload(true);
 }
 
 // Password Management Functions
