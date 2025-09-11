@@ -41,6 +41,9 @@ public class ProfileController {
     @PostMapping("/update")
     public ResponseEntity<?> updateProfile(Authentication authentication,
                                         @ModelAttribute("user") UserDto userDto) {
+
+        System.out.println(userDto.toString());
+
         try {
             userService.updateUser(authentication.getName(), userDto);
             return ResponseEntity.status(302).location(URI.create("/profile?update=true")).build();
