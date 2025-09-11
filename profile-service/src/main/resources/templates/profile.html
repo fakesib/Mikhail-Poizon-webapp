@@ -152,7 +152,7 @@
 
             <!-- Main Content -->
             <div class="main-content">
-                <form th:action="@{/profile/update}" th:object="${user}" method="post">
+                <form id="profileForm" th:action="@{/profile/update}" th:object="${user}" method="post">
                 <div class="content-sections">
                     <!-- Основная информация -->
                     <div class="card">
@@ -254,7 +254,7 @@
                                 </div>
                             </div>
 
-                            <input type="hidden" th:field="*{verify_token}" />
+                            <input type="hidden" th:field="*{verify_token}">
 
                             <!-- Неподтвержденный email -->
                             <div th:if="${user.verify_token != null}">
@@ -279,7 +279,7 @@
                                         </div>
                                         <div id="emailEdit" style="display: none;">
                                             <div class="email-row">
-                                                <input type="email" id="emailInput" class="form-input email-edit-input" th:field="*{email}">
+                                                <input type="email" id="emailInput" class="form-input email-edit-input" th:field="*{email}" value="Не указано">
                                                 <svg class="status-icon status-unverified" viewBox="0 0 24 24">
                                                     <circle cx="12" cy="12" r="10"/>
                                                     <path d="m15 9-6 6M9 9l6 6"/>

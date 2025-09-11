@@ -17,7 +17,7 @@ function isMobile() {
 }
 
 function sendConfirmMail() {
-    const section = document.getElementById("emailDisplay");
+    const section = document.getElementById("profileForm");
 
     const data = new URLSearchParams();
     data.append("email", section.querySelector("[name='email']").value);
@@ -42,7 +42,7 @@ function sendConfirmMail() {
 }
 
 function confirmEmailEdit() {
-    const section = document.getElementById("emailEdit");
+    const section = document.getElementById("profileForm");
 
     const data = new URLSearchParams();
         data.append("email", section.querySelector("[name='email']").value);
@@ -58,7 +58,7 @@ function confirmEmailEdit() {
         })
         .then(res => {
             if (res.ok) {
-                alert("Письмо подтверждения отправлено!");
+                alert("Почта обновлена!");
             } else {
                 alert("Ошибка при отправке");
             }
