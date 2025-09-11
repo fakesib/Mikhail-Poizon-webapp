@@ -20,7 +20,7 @@ function sendConfirmMail() {
     const section = document.getElementById("profileForm");
 
     const data = new URLSearchParams();
-    data.append("email", section.querySelector("[name='email']").value);
+    data.append("email", section.querySelector("#currentEmail").value);
     data.append("username", section.querySelector("[name='username']").value);
     data.append("verify_token", section.querySelector("[name='verify_token']").value);
 
@@ -45,7 +45,32 @@ function confirmEmailEdit() {
     const section = document.getElementById("profileForm");
 
     const data = new URLSearchParams();
-        data.append("email", section.querySelector("[name='email']").value);
+        data.append("email", section.querySelector("#emailInput").value);
+        data.append("username", section.querySelector("[name='username']").value);
+        data.append("verify_token", section.querySelector("[name='verify_token']").value);
+
+        fetch("/profile/update", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: data.toString()
+        })
+        .then(res => {
+            if (res.ok) {
+                alert("Почта обновлена!");
+            } else {
+                alert("Ошибка при отправке");
+            }
+        })
+        .catch(err => console.error("Ошибка:", err));
+}
+
+function confirmEmailVerifiedEdit() {
+    const section = document.getElementById("profileForm");
+
+    const data = new URLSearchParams();
+        data.append("email", section.querySelector("#emailVerifiedInput").value);
         data.append("username", section.querySelector("[name='username']").value);
         data.append("verify_token", section.querySelector("[name='verify_token']").value);
 
