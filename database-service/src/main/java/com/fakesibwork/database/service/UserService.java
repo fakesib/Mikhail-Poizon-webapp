@@ -70,7 +70,8 @@ public class UserService {
         } else if (userRepo.findByEmail(userDto.getEmail()).isPresent()
                 && !user.getEmail().equals(userDto.getEmail())) {
             throw new EmailIsPresentException(userDto.getEmail());
-        } else if (!user.getEmail().equals(userDto.getEmail())) {
+        } else if (!user.getEmail().isEmpty()
+                && !user.getEmail().equals(userDto.getEmail())) {
             user.setVerify_token(UUID.randomUUID().toString());
         } else {
             user.setUsername(userDto.getUsername());
