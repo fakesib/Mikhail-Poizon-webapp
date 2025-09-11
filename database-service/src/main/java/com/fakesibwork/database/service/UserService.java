@@ -64,19 +64,27 @@ public class UserService {
 
         User user = userRepo.findByUsername(username)
                 .orElseThrow(UserNotFoundException::new);
+
+        boolean emailNotNull = user.getEmail() != null
+                && !user.getEmail().isBlank();
+
+        boolean emailChanged = emailNotNull
+                && !user.getEmail().equals(userDto.getEmail());
+
+        boolean emailIsPresent = emailNotNull && emailChanged
+                && userRepo.findByEmail(userDto.getEmail()).isPresent();
+
         if (userRepo.findByUsername(userDto.getUsername()).isPresent()
                 && !user.getUsername().equals(userDto.getUsername())) {
             throw new UsernameIsPresentException(userDto.getUsername());
-        } else if (userRepo.findByEmail(userDto.getEmail()).isPresent()
-                && !user.getEmail().isBlank()
-                && !user.getEmail().equals(userDto.getEmail())) {
+        } else if (emailIsPresent) {
             throw new EmailIsPresentException(userDto.getEmail());
-        } else if (!user.getEmail().isBlank()
-                && !user.getEmail().equals(userDto.getEmail())) {
+        } else if (emailChanged) {
             user.setVerify_token(UUID.randomUUID().toString());
         } else {
             user.setUsername(userDto.getUsername());
-            user.setEmail(userDto.getEmail());
+            if (emailNotNull)
+                user.setEmail(userDto.getEmail());
             userRepo.save(user);
         }
     }
