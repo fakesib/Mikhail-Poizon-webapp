@@ -58,7 +58,7 @@ public class UserService {
             throw new EmailIsAlreadyConfirmedException();
         }
     }
-
+    //todo
     public void updateUser(String username, UserDto userDto)
             throws EmailIsPresentException, UsernameIsPresentException, UserNotFoundException {
 
@@ -76,15 +76,17 @@ public class UserService {
 
         if (userRepo.findByUsername(userDto.getUsername()).isPresent()
                 && !user.getUsername().equals(userDto.getUsername())) {
+
             throw new UsernameIsPresentException(userDto.getUsername());
+
         } else if (emailIsPresent) {
             throw new EmailIsPresentException(userDto.getEmail());
-        } else if (emailChanged) {
-            user.setVerify_token(UUID.randomUUID().toString());
         } else {
             user.setUsername(userDto.getUsername());
-            if (emailNotNull)
+            if (emailChanged) {
+                user.setVerify_token(UUID.randomUUID().toString());
                 user.setEmail(userDto.getEmail());
+            }
             userRepo.save(user);
         }
     }
