@@ -68,9 +68,10 @@ public class UserService {
                 && !user.getUsername().equals(userDto.getUsername())) {
             throw new UsernameIsPresentException(userDto.getUsername());
         } else if (userRepo.findByEmail(userDto.getEmail()).isPresent()
+                && !user.getEmail().isBlank()
                 && !user.getEmail().equals(userDto.getEmail())) {
             throw new EmailIsPresentException(userDto.getEmail());
-        } else if (!user.getEmail().isEmpty()
+        } else if (!user.getEmail().isBlank()
                 && !user.getEmail().equals(userDto.getEmail())) {
             user.setVerify_token(UUID.randomUUID().toString());
         } else {
