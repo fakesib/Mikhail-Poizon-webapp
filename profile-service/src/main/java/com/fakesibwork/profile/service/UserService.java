@@ -1,6 +1,7 @@
 package com.fakesibwork.profile.service;
 
 import com.fakesibwork.common.dto.UserDto;
+import com.fakesibwork.common.exceptions.ConfirmMailException;
 import com.fakesibwork.common.exceptions.ProfileUpdateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -25,8 +26,12 @@ public class UserService {
         return restTemplate.getForEntity(USER_SERVICE_URL + username, UserDto.class).getBody();
     }
 
-    public void sendConfirmationMail(UserDto userDto) {
-        kafkaTemplate.send("confirm-mail-event-topic", userDto.getUsername(), userDto);
+    public void sendConfirmationMail(UserDto userDto) throws ConfirmMailException {
+        if (userDto.getEmail() != null && userDto.getUsername() != null) {
+            kafkaTemplate.send("confirm-mail-event-topic", userDto.getUsername(), userDto);
+        } else {
+            throw new ConfirmMailException("Email or username is null");
+        }
     }
 
     public void updateUser(String username, UserDto userDto) throws ProfileUpdateException {

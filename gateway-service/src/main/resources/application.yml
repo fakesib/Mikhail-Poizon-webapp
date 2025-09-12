@@ -33,7 +33,7 @@ spring:
         - id: service-discovery
           uri: lb://service-discovery
           predicates:
-            - Path=/eureka/
+            - Path=/eureka/**
 
 eureka:
   client:

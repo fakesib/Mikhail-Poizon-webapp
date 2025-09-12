@@ -261,7 +261,7 @@
                                     <div id="emailSection">
                                         <div id="emailDisplay">
                                             <div class="email-row">
-                                                <span id="currentEmail" th:text="${user.email}"></span>
+                                                <span id="currentEmail" th:field="*{email}"></span>
                                                 <svg class="status-icon status-unverified" viewBox="0 0 24 24">
                                                     <circle cx="12" cy="12" r="10"/>
                                                     <path d="m15 9-6 6M9 9l6 6"/>

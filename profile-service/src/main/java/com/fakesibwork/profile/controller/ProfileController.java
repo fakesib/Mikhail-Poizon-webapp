@@ -1,5 +1,6 @@
 package com.fakesibwork.profile.controller;
 
+import com.fakesibwork.common.exceptions.ConfirmMailException;
 import com.fakesibwork.common.exceptions.ProfileUpdateException;
 import com.fakesibwork.profile.service.UserService;
 import com.fakesibwork.common.dto.UserDto;
@@ -29,20 +30,22 @@ public class ProfileController {
     }
 
     @PostMapping("/send-confirm-mail")
-    public String sendConfirmMail(@ModelAttribute("user") UserDto userDto,
+    public ResponseEntity<?> sendConfirmMail(@ModelAttribute("user") UserDto userDto,
                                   RedirectAttributes redirectAttributes) {
 
-        userService.sendConfirmationMail(userDto);
-        redirectAttributes.addFlashAttribute("message", "Письмо отправлено, проверьте почту");
-        return "redirect:/profile";
+        System.out.println(userDto);
+        try {
+            userService.sendConfirmationMail(userDto);
+            return ResponseEntity.status(302).location(URI.create("/profile")).build();
+        } catch (ConfirmMailException exception) {
+            ResponseEntity.badRequest().body(exception.getMessage());
+        }
     }
 
     //TODO redirect by status
     @PostMapping("/update")
     public ResponseEntity<?> updateProfile(Authentication authentication,
                                         @ModelAttribute("user") UserDto userDto) {
-
-        System.out.println(userDto.toString());
 
         try {
             userService.updateUser(authentication.getName(), userDto);
