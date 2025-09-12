@@ -68,10 +68,13 @@ public class UserService {
         boolean emailNotNull = user.getEmail() != null
                 && !user.getEmail().isBlank();
 
-        boolean emailChanged = emailNotNull
+        boolean emailDtoNotNull = userDto.getEmail() != null
+                && !userDto.getEmail().isBlank();
+
+        boolean emailChanged = emailNotNull && emailDtoNotNull
                 && !user.getEmail().equals(userDto.getEmail());
 
-        boolean emailIsPresent = emailNotNull && emailChanged
+        boolean emailIsPresent = emailChanged
                 && userRepo.findByEmail(userDto.getEmail()).isPresent();
 
         if (userRepo.findByUsername(userDto.getUsername()).isPresent()
