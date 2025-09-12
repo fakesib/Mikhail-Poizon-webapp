@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -68,14 +69,22 @@ public class UserService {
         boolean emailNotNull = user.getEmail() != null
                 && !user.getEmail().isBlank();
 
+        System.out.println("Email not null " + emailNotNull);
+
         boolean emailDtoNotNull = userDto.getEmail() != null
                 && !userDto.getEmail().isBlank();
 
-        boolean emailChanged = emailNotNull && emailDtoNotNull
-                && !user.getEmail().equals(userDto.getEmail());
+        System.out.println("Email dto not null " + emailDtoNotNull);
+
+        boolean emailChanged = emailDtoNotNull
+                && !Objects.equals(user.getEmail(), userDto.getEmail());
+
+        System.out.println("Email changed " + emailChanged);
 
         boolean emailIsPresent = emailChanged
                 && userRepo.findByEmail(userDto.getEmail()).isPresent();
+
+        System.out.println("Email is Present " + emailIsPresent);
 
         if (userRepo.findByUsername(userDto.getUsername()).isPresent()
                 && !user.getUsername().equals(userDto.getUsername())) {
