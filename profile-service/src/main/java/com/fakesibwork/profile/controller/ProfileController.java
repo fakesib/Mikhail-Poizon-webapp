@@ -38,7 +38,7 @@ public class ProfileController {
             userService.sendConfirmationMail(userDto);
             return ResponseEntity.status(302).location(URI.create("/profile")).build();
         } catch (ConfirmMailException exception) {
-            ResponseEntity.badRequest().body(exception.getMessage());
+            return ResponseEntity.badRequest().body(exception.getMessage());
         }
     }
 
