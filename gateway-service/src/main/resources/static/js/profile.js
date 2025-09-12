@@ -20,7 +20,7 @@ function sendConfirmMail() {
     const section = document.getElementById("profileForm");
 
     const data = new URLSearchParams();
-    data.append("email", section.querySelector("#currentEmail").value);
+    data.append("email", section.querySelector("[name='email']").value);
     data.append("username", section.querySelector("[name='username']").value);
     data.append("verify_token", section.querySelector("[name='verify_token']").value);
 
