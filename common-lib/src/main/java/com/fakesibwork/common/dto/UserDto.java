@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.io.Serializable;
 
+@ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

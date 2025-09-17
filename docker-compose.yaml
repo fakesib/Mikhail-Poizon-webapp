@@ -39,6 +39,7 @@ services:
       postgres-service:
         condition: service_healthy
       service-discovery:
+        condition: service_started
     networks:
       - app-network
 
@@ -46,7 +47,8 @@ services:
     image: ghcr.io/fakesib/gateway-service
     container_name: gateway-service
     depends_on:
-      - service_discovery
+      service-discovery:
+        condition: service_started
     networks:
       - app-network
 

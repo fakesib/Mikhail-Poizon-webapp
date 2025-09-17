@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -58,21 +59,46 @@ public class UserService {
             throw new EmailIsAlreadyConfirmedException();
         }
     }
-
+    //todo
     public void updateUser(String username, UserDto userDto)
             throws EmailIsPresentException, UsernameIsPresentException, UserNotFoundException {
 
         User user = userRepo.findByUsername(username)
                 .orElseThrow(UserNotFoundException::new);
+
+        boolean emailNotNull = user.getEmail() != null
+                && !user.getEmail().isBlank();
+
+        System.out.println("Email not null " + emailNotNull);
+
+        boolean emailDtoNotNull = userDto.getEmail() != null
+                && !userDto.getEmail().isBlank();
+
+        System.out.println("Email dto not null " + emailDtoNotNull);
+
+        boolean emailChanged = emailDtoNotNull
+                && !Objects.equals(user.getEmail(), userDto.getEmail());
+
+        System.out.println("Email changed " + emailChanged);
+
+        boolean emailIsPresent = emailChanged
+                && userRepo.findByEmail(userDto.getEmail()).isPresent();
+
+        System.out.println("Email is Present " + emailIsPresent);
+
         if (userRepo.findByUsername(userDto.getUsername()).isPresent()
                 && !user.getUsername().equals(userDto.getUsername())) {
+
             throw new UsernameIsPresentException(userDto.getUsername());
-        } else if (userRepo.findByEmail(userDto.getEmail()).isPresent()
-                && !user.getEmail().equals(userDto.getEmail())) {
+
+        } else if (emailIsPresent) {
             throw new EmailIsPresentException(userDto.getEmail());
         } else {
             user.setUsername(userDto.getUsername());
-            user.setEmail(userDto.getEmail());
+            if (emailChanged) {
+                user.setVerify_token(UUID.randomUUID().toString());
+                user.setEmail(userDto.getEmail());
+            }
             userRepo.save(user);
         }
     }

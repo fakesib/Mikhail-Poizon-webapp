@@ -21,7 +21,7 @@ spring:
         - id: auth-service
           uri: lb://auth-service
           predicates:
-            - Path=/auth/**x
+            - Path=/auth/**
         - id: database-service
           uri: lb://database-service
           predicates:
@@ -30,8 +30,14 @@ spring:
           uri: lb://feed-service
           predicates:
             - Path=/feed/**
+        - id: service-discovery
+          uri: http://service-discovery:8761
+          predicates:
+            - Path=/eureka/**
+          filters:
+            - StripPrefix=1
 
-  eureka:
-    client:
-      service-url:
-        defaultZone: http://service-discovery:8761/eureka/
+eureka:
+  client:
+    service-url:
+      defaultZone: http://service-discovery:8761/eureka/
