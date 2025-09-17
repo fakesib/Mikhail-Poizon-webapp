@@ -31,9 +31,11 @@ spring:
           predicates:
             - Path=/feed/**
         - id: service-discovery
-          uri: lb://service-discovery
+          uri: http://service-discovery:8761
           predicates:
             - Path=/eureka/**
+          filters:
+            - StripPrefix=1
 
 eureka:
   client:
