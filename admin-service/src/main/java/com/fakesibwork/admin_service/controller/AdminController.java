@@ -2,6 +2,7 @@ package com.fakesibwork.admin_service.controller;
 
 import com.fakesibwork.admin_service.service.UserService;
 import com.fakesibwork.common.dto.UserDto;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,12 @@ public class AdminController {
 
     public AdminController(UserService userService) {
         this.userService = userService;
+    }
+
+    @GetMapping("")
+    public String adminPage(Authentication authentication, Model model) {
+        model.addAttribute("username", authentication.getName());
+        return "admin";
     }
 
     @GetMapping("/users")
