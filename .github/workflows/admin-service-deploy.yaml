@@ -1,4 +1,4 @@
-name: Auth service deploy
+name: Admin service deploy
 
 on:
   push:

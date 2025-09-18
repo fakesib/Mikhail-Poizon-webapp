@@ -43,4 +43,5 @@ public class SecurityConfig {
         config.setPort(redisPort);
         return new LettuceConnectionFactory(config);
     }
+    
 }
