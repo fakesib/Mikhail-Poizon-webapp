@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -43,6 +45,18 @@ public class UserController {
         }
     }
 
+    @GetMapping("/all")
+    public List<UserDto> allUsers() {
+
+        try {
+            return userService.getAllUsers();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+
+    //TODO Change path
     @GetMapping({"confirm-mail", "confirm-mail/{token}"})
     public ResponseEntity<?> confirmMailByVerifyToken(@PathVariable(required = false) String token) {
         try {

@@ -30,6 +30,10 @@ spring:
           uri: lb://feed-service
           predicates:
             - Path=/feed/**
+        - id: admin-service
+          uri: lb://admin-service
+          predicates:
+            - Path=/admin/**
         - id: service-discovery
           uri: http://service-discovery:8761
           predicates:

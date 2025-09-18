@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Все пользователи</title>
+</head>
+<body>
+    <table>
+        <tr th:each="users : ${users}">
+            <td th:text="users.username"> Username</td>
+            <td th:text="users.email"> Email</td>
+            <td th:text="users.role"> Role</td>
+        </tr>
+    </table>
+</body>
+</html>
