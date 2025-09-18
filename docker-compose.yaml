@@ -11,6 +11,18 @@ services:
     networks:
       - app-network
 
+  admin-service:
+    image: ghcr.io/fakesib/admin-service
+    container_name: admin-service
+    environment:
+      JWT_TOKEN: ${SERVICE_JWT_TOKEN}
+    depends_on:
+      - gateway-service
+      - redis
+      - service-discovery
+    networks:
+      - app-network
+
   mail-service:
     image: ghcr.io/fakesib/mail-service
     container_name: mail-service

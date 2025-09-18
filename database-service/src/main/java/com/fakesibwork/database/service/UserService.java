@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -101,5 +103,21 @@ public class UserService {
             }
             userRepo.save(user);
         }
+    }
+
+    public List<UserDto> getAllUsers() {
+        List<User> users = userRepo.findAll();
+        List<UserDto> usersResult = new ArrayList<>();
+
+        for (int i = 0; i < users.size(); i++) {
+            UserDto userRes = UserDto.builder()
+                    .username(users.get(i).getUsername())
+                    .email(users.get(i).getEmail())
+                    .role(users.get(i).getRole())
+                    .build();
+            usersResult.add(userRes);
+        }
+
+        return usersResult;
     }
 }
