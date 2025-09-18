@@ -6,7 +6,8 @@
 </head>
 <body>
     <h1>Admin panel</h1>
-    <p th:text="'Hello' + ${username} + '!'">Hello username!</p>
+    <p th:text="'Hello ' + ${username} + '!'">Hello username!</p>
     <a th:href="@{/admin/users}">Users list</a>
+    <a th:href="@{/admin/services}">Services list</a>
 </body>
 </html>

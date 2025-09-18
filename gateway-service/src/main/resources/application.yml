@@ -38,8 +38,6 @@ spring:
           uri: http://service-discovery:8761
           predicates:
             - Path=/eureka/**
-          filters:
-            - StripPrefix=1
 
 eureka:
   client:
