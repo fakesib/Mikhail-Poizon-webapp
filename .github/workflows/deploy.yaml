@@ -32,6 +32,11 @@ jobs:
           docker build -f auth-service/Dockerfile -t ${{ env.REGISTRY }}/${{ secrets.GH_USERNAME }}/auth-service auth-service/
           docker push ${{ env.REGISTRY }}/${{ secrets.GH_USERNAME }}/auth-service
 
+      - name: Build admin-service image
+        run: |
+          docker build -f admin-service/Dockerfile -t ${{ env.REGISTRY }}/${{ secrets.GH_USERNAME }}/admin-service admin-service/
+          docker push ${{ env.REGISTRY }}/${{ secrets.GH_USERNAME }}/admin-service
+
       - name: Build database-service image
         run: | 
           docker build -f database-service/Dockerfile -t ${{ env.REGISTRY }}/${{ secrets.GH_USERNAME }}/database-service database-service/
