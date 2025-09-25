@@ -29,13 +29,14 @@ public class PostController {
 
     @GetMapping("/create")
     public String createPostPage(Authentication authentication, Model model) {
+        model.addAttribute("username", authentication.getName());
         model.addAttribute("post", new PostDto());
         return "create-post";
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createPost(Authentication authentication, @RequestBody PostDto postDto,
-                                     @RequestParam("image") MultipartFile imageFile) {
+    public ResponseEntity<?> createPost(Authentication authentication, @RequestPart PostDto postDto,
+                                     @RequestPart("image") MultipartFile imageFile) {
 
         try {
             postService.createPost(authentication.getName(), postDto, imageFile);
