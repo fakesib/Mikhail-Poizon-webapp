@@ -18,7 +18,7 @@ public class PostDto implements Serializable {
     private Integer id;
     private String title;
     private String description;
-    private String image;
+    private String image_path;
     private String author;
     private LocalDate date;
 
