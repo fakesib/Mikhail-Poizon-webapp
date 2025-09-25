@@ -35,7 +35,7 @@ public class PostController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createPost(Authentication authentication, @RequestPart PostDto postDto,
+    public ResponseEntity<?> createPost(Authentication authentication, @ModelAttribute PostDto postDto,
                                      @RequestPart("image") MultipartFile imageFile) {
 
         try {
