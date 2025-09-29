@@ -22,7 +22,7 @@ public class Post {
 
     private String description;
 
-    @Column(nullable = false)
+    //@Column(nullable = false)
     private String image_path;
 
     private String author;
