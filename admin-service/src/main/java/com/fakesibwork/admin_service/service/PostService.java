@@ -2,6 +2,7 @@ package com.fakesibwork.admin_service.service;
 
 import com.fakesibwork.common.dto.PostDto;
 import com.fakesibwork.common.exceptions.PostCreatingException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -10,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDate;
 
+@Slf4j
 @Service
 public class PostService {
 
@@ -29,6 +31,7 @@ public class PostService {
 
         postDto.setAuthor(author);
         postDto.setDate(LocalDate.now());
+        log.info(postDto.toString());
         restTemplate.postForEntity(POST_SERVICE_URL + "create", postDto, String.class);
     }
 }
