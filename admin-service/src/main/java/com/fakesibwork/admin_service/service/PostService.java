@@ -2,9 +2,6 @@ package com.fakesibwork.admin_service.service;
 
 import com.fakesibwork.common.dto.PostDto;
 import com.fakesibwork.common.exceptions.PostCreatingException;
-import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -13,11 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDate;
 
-@Slf4j
 @Service
 public class PostService {
-
-    private static final Logger logger = LoggerFactory.getLogger(PostService.class);
 
     private static final String POST_SERVICE_URL = "http://database-service/api/post/";
 
@@ -35,8 +29,6 @@ public class PostService {
 
         postDto.setAuthor(author);
         postDto.setDate(LocalDate.now());
-        logger.info(postDto.toString());
-        //restTemplate.postForEntity(POST_SERVICE_URL + "create", postDto, String.class);
-
+        restTemplate.postForEntity(POST_SERVICE_URL + "create", postDto, String.class);
     }
 }
