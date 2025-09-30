@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Create post</title>
+</head>
+<body>
+    <h1>Создать новый пост</h1>
+    <form th:action="@{/post/create}" th:object="${post}" method="post" enctype="multipart/form-data">
+        <li>Титул <input type="text" th:field="*{title}"></li>
+        <li>Описание: <input type="text" th:field="*{description}"></li>
+        <li>Автор: <input th:value="${username}" readonly></li>
+        <li>Изображение <input type="file" name="image"></li>
+        <li><button type="submit">Создать</button></li>
+    </form>
+</body>
+</html>

@@ -33,7 +33,7 @@ spring:
         - id: admin-service
           uri: lb://admin-service
           predicates:
-            - Path=/admin/**
+            - Path=/admin/**, /post/**
         - id: service-discovery
           uri: http://service-discovery:8761
           predicates:
