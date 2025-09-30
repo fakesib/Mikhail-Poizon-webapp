@@ -24,6 +24,7 @@ public class PostService {
                         .title(postDto.getTitle())
                         .author(postDto.getAuthor())
                         .description(postDto.getDescription())
+                        .image_path(postDto.getImage_path())
                         .date(postDto.getDate())
                 .build()).getId();
     }
