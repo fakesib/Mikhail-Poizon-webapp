@@ -16,10 +16,27 @@ services:
     container_name: admin-service
     environment:
       JWT_TOKEN: ${SERVICE_JWT_TOKEN}
+      MINIO_USERNAME: ${MINIO_USERNAME}
+      MINIO_PASSWORD: ${MINIO_PASSWORD}
     depends_on:
       - gateway-service
       - redis
       - service-discovery
+    networks:
+      - app-network
+
+  minio-service:
+    image: quay.io/minio/minio
+    container_name: minio-service
+    command: server /data
+    ports:
+      - "9000:9000"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_USERNAME}
+      MINIO_ROOT_PASSWORD: ${MINIO_PASSWORD}
+    volumes:
+      - minio_data:/data
+    restart: always
     networks:
       - app-network
 
@@ -173,6 +190,7 @@ services:
 
 volumes:
   db-data:
+  minio_data:
 
 networks:
   app-network:

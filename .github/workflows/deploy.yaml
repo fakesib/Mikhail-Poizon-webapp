@@ -97,5 +97,7 @@ jobs:
           export DOMAIN=${{ secrets.DOMAIN }} && \
           export SERVICE_JWT_TOKEN=${{ secrets.SERVICE_JWT_TOKEN }} && \
           export SECRET_JWT_TOKEN=${{ secrets.SECRET_JWT_TOKEN }} && \
+          export MINIO_USERNAME=${{ secrets.MINIO_USERNAME }} && \
+          export MINIO_PASSWORD=${{ secrets.MINIO_PASSWORD }} && \
           docker compose up -d --pull always"
       

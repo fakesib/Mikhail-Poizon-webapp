@@ -41,7 +41,7 @@ public class PostController {
         try {
             postService.createPost(authentication.getName(), postDto, imageFile);
             return ResponseEntity.ok("Post created");
-        } catch (IOException | PostCreatingException exception) {
+        } catch (Exception exception) {
             return ResponseEntity.badRequest().body(exception.getMessage());
         }
     }
