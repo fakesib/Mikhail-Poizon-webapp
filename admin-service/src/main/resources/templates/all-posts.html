@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Все посты</title>
+</head>
+<body>
+    <h1>Все посты</h1>
+    <table>
+        <tr th:each="post : ${postList}">
+            <td th:text="${post.id}"> Id</td>
+            <td th:text="${post.title}"> Title</td>
+            <td th:text="${post.description}"> Description</td>
+            <td th:text="${post.image_path}"> Image path</td>
+            <td th:text="${post.author}"> Author</td>
+            <td th:text="${post.date}"> Date</td>
+        </tr>
+    </table>
+    <a th:href="@{/admin/post}">Назад</a>
+</body>
+</html>

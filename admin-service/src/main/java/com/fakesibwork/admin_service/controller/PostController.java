@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Controller
-@RequestMapping("/post")
+@RequestMapping("/admin/post")
 public class PostController {
 
     private PostService postService;
@@ -46,4 +47,14 @@ public class PostController {
         }
     }
 
+    @GetMapping("/all")
+    public String allPostsPage(Model model) {
+        try {
+            List<PostDto> postList = postService.allPost();
+            model.addAttribute("postList", postList);
+            return "all-posts";
+        } catch (Exception e) {
+            return "Error " + e.getMessage();
+        }
+    }
 }

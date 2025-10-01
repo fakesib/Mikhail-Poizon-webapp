@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -53,7 +54,7 @@ public class PostService {
         log.info(postDto.toString());
     }
 
-    public void uploadFile(String bucketName, String objectName, MultipartFile file) throws Exception {
+    private void uploadFile(String bucketName, String objectName, MultipartFile file) throws Exception {
         try (InputStream is = file.getInputStream()) {
             minioClient.putObject(
                     PutObjectArgs.builder()
@@ -64,5 +65,9 @@ public class PostService {
                             .build()
             );
         }
+    }
+
+    public List<PostDto> allPost() {
+        return restTemplate.getForEntity(POST_SERVICE_URL + "all", List.class).getBody();
     }
 }
