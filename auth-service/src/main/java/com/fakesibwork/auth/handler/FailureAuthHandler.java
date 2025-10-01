@@ -38,9 +38,9 @@ public class FailureAuthHandler extends SimpleUrlAuthenticationFailureHandler {
                     LocalDateTime.ofInstant(Instant.ofEpochMilli(unlockTime), ZoneId.systemDefault());
 
             // добавляем query параметр с сообщением
-            setDefaultFailureUrl("/login?error=" + URLEncoder.encode(msg, StandardCharsets.UTF_8));
+            setDefaultFailureUrl("/auth/login?error=" + URLEncoder.encode(msg, StandardCharsets.UTF_8));
         } else {
-            setDefaultFailureUrl("/login?error=Неверное имя пользователя или пароль");
+            setDefaultFailureUrl("/auth/login?error=Wrong+username+or+password");
         }
         super.onAuthenticationFailure(request, response, exception);
     }
