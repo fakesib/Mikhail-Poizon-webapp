@@ -12,8 +12,8 @@ public class LoginAttemptService {
 
     private final Map<String, Integer> attemptsMap = new ConcurrentHashMap<>();
 
-    public boolean loginValid(String username) {
-        return attemptsMap.get(username) < MAX_ATTEMPTS;
+    public boolean isBlocked(String key) {
+        return attemptsMap.getOrDefault(key, 0) >= MAX_ATTEMPTS;
     }
 
     public void loginSucceeded(String key) {

@@ -23,7 +23,7 @@ public class BrutForceFilter extends OncePerRequestFilter {
 
         String username = request.getParameter("username");
 
-        if (username != null && !loginAttemptService.loginValid(username)) {
+        if (username != null && loginAttemptService.isBlocked(username)) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "Account is temporarily locked due to too many failed login attempts.");
             return;
         }
