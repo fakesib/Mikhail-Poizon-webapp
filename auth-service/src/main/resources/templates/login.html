@@ -58,6 +58,7 @@
                 </button>
             </div>
         </form>
+        <div th:if="${error}" th:text="${error}" style="color:red;"></div>
     </div>
     <script type="text/javascript" th:src="@{/js/login.js}"></script>
     <script type="text/javascript" src="/js/login.js"></script>

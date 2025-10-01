@@ -9,6 +9,9 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Component
 public class FailureAuthHandler extends SimpleUrlAuthenticationFailureHandler {
@@ -25,6 +28,17 @@ public class FailureAuthHandler extends SimpleUrlAuthenticationFailureHandler {
 
         String username = request.getParameter("username");
         loginAttemptService.loginFailed(username);
-        super.onAuthenticationFailure(request, response, exception);
+
+        if (loginAttemptService.isBlocked(username)) {
+            long unlockTime = loginAttemptService.getUnlockTime(username);
+            request.setAttribute("error",
+                    "Аккаунт временно заблокирован. Повторите попытку после: " +
+                            LocalDateTime.ofInstant(Instant.ofEpochMilli(unlockTime), ZoneId.systemDefault())
+            );
+        } else {
+            request.setAttribute("error", "Неверное имя пользователя или пароль");
+        }
+
+        request.getRequestDispatcher("/login").forward(request, response);
     }
 }
