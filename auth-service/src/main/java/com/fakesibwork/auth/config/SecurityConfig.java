@@ -1,5 +1,8 @@
 package com.fakesibwork.auth.config;
 
+import com.fakesibwork.auth.handler.FailureAuthHandler;
+import com.fakesibwork.auth.handler.SuccessAuthHandler;
+import com.fakesibwork.auth.service.LoginAttemptService;
 import com.fakesibwork.auth.service.UserUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,11 +16,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
-@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 1800)
+@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 180_000)
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -30,10 +34,19 @@ public class SecurityConfig {
     Integer redisPort;
 
     @Autowired
+    private LoginAttemptService loginAttemptService;
+
+    @Autowired
     private AuthenticationProviderConfig authenticationProviderConfig;
 
     @Autowired
     private UserUserDetailService userDetailService;
+
+    @Autowired
+    private SuccessAuthHandler successAuthHandler;
+
+    @Autowired
+    private FailureAuthHandler failureAuthHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -45,6 +58,8 @@ public class SecurityConfig {
                 .formLogin(form -> form
                         .loginPage("/auth/login")
                         .loginProcessingUrl("/auth/login")
+                        .successHandler(successAuthHandler)
+                        .failureHandler(failureAuthHandler)
                         .defaultSuccessUrl("/profile", true)
                 )
                 .logout(logout -> logout
@@ -54,7 +69,8 @@ public class SecurityConfig {
                 .securityContext(context -> context
                         .securityContextRepository(securityContextRepository())
                         .requireExplicitSave(false)
-                );
+                )
+                .addFilterBefore(new BrutForceFilter(loginAttemptService), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
