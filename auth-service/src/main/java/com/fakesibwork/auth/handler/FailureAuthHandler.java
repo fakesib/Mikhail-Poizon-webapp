@@ -38,7 +38,7 @@ public class FailureAuthHandler extends SimpleUrlAuthenticationFailureHandler {
         } else {
             request.setAttribute("error", "Неверное имя пользователя или пароль");
         }
-
-        request.getRequestDispatcher("/login").forward(request, response);
+        setDefaultFailureUrl("/login?error");
+        super.onAuthenticationFailure(request, response, exception);
     }
 }
