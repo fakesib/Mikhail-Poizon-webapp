@@ -34,13 +34,13 @@ public class FailureAuthHandler extends SimpleUrlAuthenticationFailureHandler {
         if (loginAttemptService.isBlocked(username)) {
             long unlockTime = loginAttemptService.getUnlockTime(username);
             // формируем строку с временем
-            String msg = "Аккаунт временно заблокирован. Повторите попытку после: " +
+            String msg = "Your account is blocked till: " +
                     LocalDateTime.ofInstant(Instant.ofEpochMilli(unlockTime), ZoneId.systemDefault());
 
             // добавляем query параметр с сообщением
             setDefaultFailureUrl("/auth/login?error=" + URLEncoder.encode(msg, StandardCharsets.UTF_8));
         } else {
-            setDefaultFailureUrl("/auth/login?error=Wrong+username+or+password");
+            setDefaultFailureUrl("/auth/login?error=Wrong username or password");
         }
         super.onAuthenticationFailure(request, response, exception);
     }
