@@ -1,10 +1,13 @@
 name: Auth service testing
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - 'test'
-  workflow_dispatch: 
+
+env:
+  REGISTRY: ghcr.io
 
 jobs:
   test:
