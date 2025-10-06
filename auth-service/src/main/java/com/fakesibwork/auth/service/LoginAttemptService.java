@@ -42,4 +42,9 @@ public class LoginAttemptService {
     public long getUnlockTime(String key) {
         return lockTimeMap.getOrDefault(key, 0L);
     }
+
+    public void reset() {
+        attemptsMap.clear();
+        lockTimeMap.clear();
+    }
 }

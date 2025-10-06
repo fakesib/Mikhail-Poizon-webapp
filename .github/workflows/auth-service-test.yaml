@@ -1,0 +1,30 @@
+name: Auth service testing
+
+on:
+  push:
+    branches:
+      - 'test'
+
+  workflow_dispatch: 
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Docker
+        run: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        run: echo "${{ secrets.GH_TOKEN }}" | docker login ${{ env.REGISTRY }} -u "${{ secrets.GH_USERNAME }}" --password-stdin
+
+      - name: Setup Redis
+        run: docker run -p "6379:6379" -d --name "redis" redis
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+
+      - name: Testing
+        run: ./gradlew test:auth-service
