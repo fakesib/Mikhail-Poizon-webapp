@@ -1,5 +1,4 @@
 <h1 align="center">Mikhail Poizon Web-App</h1>
-
 <h2>🔎 About</h2>
 This is a web application developed in Java for the <b>Mikhail Poizon</b> store. It is designed for convenient ordering, profile management. 
 The project organized using a microservice architecture. It is continuously evolving and scaling.
