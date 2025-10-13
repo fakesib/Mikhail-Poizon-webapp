@@ -4,15 +4,14 @@ server:
 spring:
   application:
     name: mail-service
-  kafka:
-    bootstrap-servers: kafka:9092
-    consumer:
-      group-id: mail-service-group
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-      retries: 3
-      properties:
-        spring.json.trusted.packages: "*"
+  cloud:
+    stream:
+      bindings:
+        mailConfirmConsumer-in-0:
+          destination: confirm-mail-event-topic
+      kafka:
+        binder:
+          brokers: kafka:9092
   mail:
     host: smtp.gmail.com
     username: ${EMAIL_USERNAME}
