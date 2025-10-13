@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
-@FeignClient(value = "UserFeignClient", url = "http://database-service", path = "/api/user")
+@FeignClient(value = "UserFeignClient", url = "database-service", path = "/api/user")
 public interface UserFeignClient {
 
     @GetMapping("/all")

@@ -81,7 +81,12 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-      
+
+      - name: Log in to GitHub Container Registry
+        run: |
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} && \
+          echo "${{ secrets.GH_TOKEN }}" | docker login ${{ env.REGISTRY }} -u "${{ secrets.GH_USERNAME }}" --password-stdin
+
       - name: Transfer docker-compose.yaml
         run: scp docker-compose.yaml ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:mikhail_poizon/web/ 
 
