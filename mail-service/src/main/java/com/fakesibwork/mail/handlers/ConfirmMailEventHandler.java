@@ -33,7 +33,7 @@ public class ConfirmMailEventHandler {
 
     public void mailConfirm(Message<UserDto> message) {
         log.info(String.valueOf(message.getHeaders().get(KafkaHeaders.RECEIVED_PARTITION, Integer.class)));
-        log.info(message.getHeaders().get(KafkaHeaders.OFFSET, String.class));
+        log.info(String.valueOf(message.getHeaders().get(KafkaHeaders.OFFSET, Long.class)));
         var userDto = message.getPayload();
         Map<String, Object> map = new HashMap<>();
         map.put("username", userDto.getUsername());
